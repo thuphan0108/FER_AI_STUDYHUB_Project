@@ -3,11 +3,11 @@
 :root {
   --font-size: 16px;
   --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
+  --foreground: #1a1a2e;
   --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --card-foreground: #1a1a2e;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a2e;
   --primary: #FD8F52;
   --primary-foreground: #ffffff;
   --secondary: #FFDCA2;
@@ -32,11 +32,11 @@
   --chart-5: #FFDCA2;
   --radius: 0.625rem;
   --sidebar: #FFF9F5;
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-foreground: #1a1a2e;
   --sidebar-primary: #FD8F52;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #FFEAD9;
-  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-accent-foreground: #030213;
   --sidebar-border: rgba(253, 143, 82, 0.15);
   --sidebar-ring: #FD8F52;
 
@@ -46,43 +46,79 @@
   --padlet-orange: #FD8F52;
   --padlet-peach: #FFBD71;
   --padlet-cream: #FFDCA2;
+
+  /* Surface & overlay */
+  --surface: #ffffff;
+  --surface-hover: #FFF9F5;
+  --overlay: rgba(0, 0, 0, 0.04);
+  --navbar-bg: #ffffff;
+  --footer-bg: linear-gradient(to right, #C73866, #FD8F52, #FFBD71);
+  --auth-bg: linear-gradient(135deg, #FFF5ED 0%, #FFEAD9 50%, #FFDCA2 100%);
+  --hero-bg: linear-gradient(135deg, rgba(253, 143, 82, 0.08) 0%, rgba(254, 103, 110, 0.08) 50%, rgba(255, 189, 113, 0.08) 100%);
+  --app-bg: linear-gradient(135deg, rgba(253, 143, 82, 0.05) 0%, rgba(254, 103, 110, 0.05) 50%, rgba(255, 189, 113, 0.05) 100%);
+  --input-border: rgba(253, 143, 82, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 10px 25px -5px rgba(253, 143, 82, 0.08);
+  --text-muted: #717182;
+  --text-dark: #1a1a2e;
+  --btn-gradient: linear-gradient(90deg, #C73866 0%, #FD8F52 100%);
+  --btn-gradient-hover: linear-gradient(90deg, #FD8F52 0%, #FFBD71 100%);
+  --divider: rgba(0, 0, 0, 0.1);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: #111827;
+  --foreground: #f1f5f9;
+  --card: #1f2937;
+  --card-foreground: #f1f5f9;
+  --popover: #1f2937;
+  --popover-foreground: #f1f5f9;
+  --primary: #FD8F52;
+  --primary-foreground: #ffffff;
+  --secondary: #374151;
+  --secondary-foreground: #f1f5f9;
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+  --accent: #374151;
+  --accent-foreground: #f1f5f9;
+  --destructive: #f87171;
+  --destructive-foreground: #ffffff;
+  --border: rgba(148, 163, 184, 0.12);
+  --input: #374151;
+  --input-background: #1f2937;
+  --switch-background: #374151;
+  --ring: #FD8F52;
+  --chart-1: #FD8F52;
+  --chart-2: #f87171;
+  --chart-3: #fbbf24;
+  --chart-4: #a78bfa;
+  --chart-5: #34d399;
+  --sidebar: #1f2937;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #FD8F52;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #374151;
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: rgba(148, 163, 184, 0.1);
+  --sidebar-ring: #FD8F52;
+
+  /* Surface & overlay */
+  --surface: #1f2937;
+  --surface-hover: #293548;
+  --overlay: rgba(255, 255, 255, 0.04);
+  --navbar-bg: #0f172a;
+  --footer-bg: #0f172a;
+  --auth-bg: linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e293b 100%);
+  --hero-bg: linear-gradient(135deg, rgba(253, 143, 82, 0.06) 0%, rgba(248, 113, 113, 0.04) 50%, rgba(251, 191, 36, 0.04) 100%);
+  --app-bg: linear-gradient(135deg, #111827 0%, rgba(253, 143, 82, 0.02) 50%, rgba(199, 56, 102, 0.02) 100%);
+  --input-border: rgba(148, 163, 184, 0.25);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --text-muted: #94a3b8;
+  --text-dark: #f1f5f9;
+  --btn-gradient: linear-gradient(90deg, #C73866 0%, #FD8F52 100%);
+  --btn-gradient-hover: linear-gradient(90deg, #FD8F52 0%, #FFBD71 100%);
+  --divider: rgba(148, 163, 184, 0.15);
 }
 
 @theme inline {
@@ -133,12 +169,8 @@
 
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
 
   html {
     font-size: var(--font-size);

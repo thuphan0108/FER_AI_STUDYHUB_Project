@@ -25,8 +25,8 @@ export default function ForgotPasswordPage() {
       <Card.Body className="p-4 p-md-5">
         {/* Header */}
         <div className="mb-4">
-          <h2 className="fw-bold text-dark mb-2">Forgot Password </h2>
-          <p className="text-muted mb-0" style={{ fontSize: '0.95rem' }}>
+          <h2 className="fw-bold mb-2" style={{ color: 'var(--text-dark)' }}>Forgot Password </h2>
+          <p className="mb-0" style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>
             Enter your email and we'll send you a link to reset your password.
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
           <Link 
             to="/auth/login" 
             className="d-flex align-items-center justify-content-center gap-2 text-decoration-none mt-3"
-            style={{ color: '#FD8F52', fontWeight: 500 }}
+            style={{ color: 'var(--primary)', fontWeight: 500 }}
           >
             <ArrowLeft size={18} />
             <span>Back to Login</span>

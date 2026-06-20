@@ -51,8 +51,8 @@ export default function LoginPage() {
       <Card.Body className="p-4 p-md-5">
         {/* Header */}
         <div className="mb-4">
-          <h2 className="fw-bold text-dark mb-2">Welcome Back</h2>
-          <p className="text-muted mb-0">Sign in to access your study documents</p>
+          <h2 className="fw-bold mb-2" style={{ color: 'var(--text-dark)' }}>Welcome Back</h2>
+          <p className="mb-0" style={{ color: 'var(--text-muted)' }}>Sign in to access your study documents</p>
         </div>
 
         <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
@@ -86,7 +86,7 @@ export default function LoginPage() {
               <Link
                 to="/auth/forgot-password"
                 className="text-decoration-none small fw-medium transition-all"
-                style={{ color: '#FD8F52' }}
+                style={{ color: 'var(--primary)' }}
               >
                 Forgot Password?
               </Link>
@@ -105,10 +105,10 @@ export default function LoginPage() {
 
         {/* Divider */}
         <div className="position-relative my-4 text-center">
-          <hr className="text-muted opacity-25" />
+          <hr style={{ borderColor: 'var(--divider)', opacity: 0.5 }} />
           <span
-            className="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted fw-medium"
-            style={{ fontSize: '0.85rem' }}
+            className="position-absolute top-50 start-50 translate-middle px-3 fw-medium"
+            style={{ fontSize: '0.85rem', color: 'var(--text-muted)', backgroundColor: 'var(--card)' }}
           >
             Or continue with
           </span>
@@ -117,8 +117,8 @@ export default function LoginPage() {
         {/* Google Login */}
         <Button
           type="button"
-          variant="light"
-          className="w-100 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3 shadow-sm border border-light-subtle"
+          className="w-100 d-flex align-items-center justify-content-center gap-2 py-2 rounded-3 shadow-sm"
+          style={{ backgroundColor: 'var(--card)', color: 'var(--card-foreground)', border: '1px solid var(--border)' }}
           onClick={handleGoogleLogin}
         >
           <svg style={{ width: '20px', height: '20px' }} viewBox="0 0 24 24">
@@ -127,16 +127,16 @@ export default function LoginPage() {
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
           </svg>
-          <span className="fw-medium text-dark">Google</span>
+          <span className="fw-medium" style={{ color: 'var(--foreground)' }}>Google</span>
         </Button>
 
         {/* Link register */}
-        <p className="text-center text-muted mt-4 mb-0" style={{ fontSize: '0.9rem' }}>
+        <p className="text-center mt-4 mb-0" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
           Don't have an account?{' '}
           <Link
             to="/auth/register"
             className="text-decoration-none ms-1"
-            style={{ color: '#FD8F52', fontWeight: 600 }}
+            style={{ color: 'var(--primary)', fontWeight: 600 }}
           >
             Register here
           </Link>

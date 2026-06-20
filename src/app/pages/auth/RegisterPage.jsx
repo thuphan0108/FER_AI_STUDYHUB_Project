@@ -40,7 +40,7 @@ export default function RegisterPage() {
       <Card.Body className="p-4 p-md-5">
         {/* Header */}
         <div className="mb-4">
-          <h2 className="fw-bold text-dark mb-2">Create Account </h2>
+          <h2 className="fw-bold mb-2" style={{ color: 'var(--text-dark)' }}>Create Account </h2>
         </div>
 
         <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
@@ -102,12 +102,12 @@ export default function RegisterPage() {
           </Button>
 
           {/* Link back to login */}
-          <p className="text-center text-muted mt-4 mb-0" style={{ fontSize: '0.9rem' }}>
+          <p className="text-center mt-4 mb-0" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
             Already have an account?{' '}
             <Link 
               to="/auth/login" 
               className="text-decoration-none ms-1" 
-              style={{ color: '#FD8F52', fontWeight: 600 }}
+              style={{ color: 'var(--primary)', fontWeight: 600 }}
             >
               Login here
             </Link>

@@ -22,19 +22,17 @@ export function MainLayout() {
   return (
     <div
       className="min-vh-100 d-flex flex-column"
-      style={{ background: 'linear-gradient(135deg, rgba(253, 143, 82, 0.05) 0%, rgba(254, 103, 110, 0.05) 50%, rgba(255, 189, 113, 0.05) 100%)' }}
+      style={{ background: 'var(--app-bg)' }}
     >
-      {/* Header/Navbar */}
       <Navbar />
 
-      {/* Hero Section - Rendered only on Homepages */}
       {isHomePage && (
-        <section className="py-5 text-center flex-grow-0" style={{ background: 'linear-gradient(135deg, rgba(253, 143, 82, 0.08) 0%, rgba(254, 103, 110, 0.08) 50%, rgba(255, 189, 113, 0.08) 100%)' }}>
+        <section className="py-5 text-center flex-grow-0" style={{ background: 'var(--hero-bg)' }}>
           <div className="container">
-            <h1 className="fw-bold text-dark mb-3 display-5">
+            <h1 className="fw-bold mb-3 display-5" style={{ color: 'var(--text-dark)' }}>
               Explore Diverse Study Resources
             </h1>
-            <p className="lead text-muted mb-0">
+            <p className="lead mb-0" style={{ color: 'var(--text-muted)' }}>
               A vast library of study materials including PDFs, Word docs, and PowerPoint presentations
               <br />
               covering all school subjects to professional academic research.
@@ -43,15 +41,11 @@ export function MainLayout() {
         </section>
       )}
 
-      {/* Main Content Area */}
       <main className="flex-grow-1">
         <Outlet />
       </main>
 
-      {/* Footer */}
       <Footer />
-
-      {/* Floating Chatbox */}
       <FloatingChatBox />
     </div>
   );

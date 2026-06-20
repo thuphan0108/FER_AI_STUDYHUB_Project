@@ -39,8 +39,8 @@ export default function VerifyEmailPage() {
           <Mail size={32} style={{ color: '#FD8F52' }} />
         </div>
         
-        <h2 className="fw-bold text-dark mb-2">Verify Your Email</h2>
-        <p className="text-muted mb-4" style={{ fontSize: '0.95rem' }}>
+        <h2 className="fw-bold mb-2" style={{ color: 'var(--text-dark)' }}>Verify Your Email</h2>
+        <p className="mb-4" style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>
           We've sent a 6-digit verification code to your email.
         </p>
 

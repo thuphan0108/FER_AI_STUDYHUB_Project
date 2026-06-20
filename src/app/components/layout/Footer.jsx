@@ -11,10 +11,9 @@ export function Footer() {
   };
 
   return (
-    <footer className="text-white py-5" style={{ background: 'linear-gradient(to right, #C73866, #FD8F52, #FFBD71)', marginTop: '4rem' }}>
+    <footer className="text-white py-5" style={{ background: 'var(--footer-bg)', marginTop: '4rem' }}>
       <div className="container">
         <div className="row g-4 text-start">
-          {/* About */}
           <div className="col-12 col-md-4">
             <h5 className="fw-bold mb-3">VỀ STUDYDOCS.AI</h5>
             <p className="text-white-50 leading-relaxed mb-0" style={{ fontSize: '14px' }}>
@@ -22,7 +21,6 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Contact */}
           <div className="col-12 col-md-4">
             <h5 className="fw-bold mb-3">LIÊN HỆ</h5>
             <div className="d-flex align-items-center gap-2 text-white-50" style={{ fontSize: '14px' }}>
@@ -31,7 +29,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Newsletter */}
           <div className="col-12 col-md-4">
             <h5 className="fw-bold mb-3">ĐĂNG KÝ NHẬN TIN</h5>
             <p className="text-white-50 mb-3" style={{ fontSize: '14px' }}>
@@ -43,7 +40,7 @@ export function Footer() {
                 placeholder="Enter your email..."
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="form-control bg-white-20 text-white placeholder-white-60 border-light-30"
+                className="form-control"
                 style={{ backgroundColor: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', color: '#ffffff' }}
                 required
               />
@@ -58,7 +55,7 @@ export function Footer() {
           </div>
         </div>
 
-        <hr className="my-4 bg-white opacity-25" />
+        <hr className="my-4" style={{ backgroundColor: 'rgba(255,255,255,0.25)', opacity: 0.5 }} />
 
         <div className="d-flex flex-column flex-md-row align-items-center justify-content-between text-white-50" style={{ fontSize: '14px' }}>
           <p className="mb-0">

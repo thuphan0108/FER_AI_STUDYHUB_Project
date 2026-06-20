@@ -22,11 +22,11 @@ export default function GuestHomePage() {
   return (
     <div className="container py-4 text-center">
       {/* Subject Categories */}
-      <div className="card shadow-sm border-0 mb-4" style={{ borderRadius: '1rem', border: '1px solid rgba(253, 143, 82, 0.2)' }}>
+      <div className="card shadow-sm mb-4" style={{ borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--card)' }}>
         <div className="card-body p-4 text-start">
           <div className="d-flex align-items-center gap-2 mb-4">
             <div className="rounded" style={{ width: '4px', height: '24px', background: 'linear-gradient(to bottom, #C73866, #FD8F52)' }}></div>
-            <h5 className="mb-0 fw-bold text-dark">DOCUMENT CATEGORIES FOR YOU</h5>
+            <h5 className="mb-0 fw-bold" style={{ color: 'var(--text-dark)' }}>DOCUMENT CATEGORIES FOR YOU</h5>
           </div>
 
           <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
