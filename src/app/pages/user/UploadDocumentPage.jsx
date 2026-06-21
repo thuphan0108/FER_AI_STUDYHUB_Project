@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { FileText, Upload, X } from 'lucide-react';
+import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import { addDocument } from '../../Service/UploadPage';
 
 //subject list
 const subjects = [
@@ -15,7 +17,9 @@ const subjects = [
 ]; 
 
 export default function UploadDocumentPage() {
+  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     subject: '',
@@ -73,7 +77,7 @@ export default function UploadDocumentPage() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selectedFile) {
@@ -86,7 +90,29 @@ export default function UploadDocumentPage() {
       return;
     }
 
-    toast.success('Document is ready to be submitted.');
+    try {
+      setIsSubmitting(true);
+      await addDocument({
+        title: formData.title.trim(),
+        subject: formData.subject,
+        visibility: formData.visibility,
+        tags: formData.tags,
+        description: formData.description,
+        fileName: selectedFile.name,
+        size: fileSize,
+        sizeInBytes: selectedFile.size,
+        date: new Date().toISOString(),
+        status: formData.visibility === 'private' ? 'PRIVATE' : 'PENDING',
+      });
+
+      toast.success('Document uploaded successfully.');
+      handleClear();
+      navigate('/my-documents');
+    } catch (error) {
+      toast.error(error.message || 'Could not upload document.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -220,8 +246,13 @@ export default function UploadDocumentPage() {
                     <button type="reset" className="btn btn-outline-secondary px-4" onClick={handleClear}>
                       Clear
                     </button>
-                    <button type="submit" className="btn text-white border-0 px-4" style={{ background: 'linear-gradient(135deg, #C73866, #FD8F52)' }}>
-                      Submit Document
+                    <button
+                      type="submit"
+                      className="btn text-white border-0 px-4"
+                      style={{ background: 'linear-gradient(135deg, #C73866, #FD8F52)' }}
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Submitting...' : 'Submit Document'}
                     </button>
                   </div>
                 </div>
