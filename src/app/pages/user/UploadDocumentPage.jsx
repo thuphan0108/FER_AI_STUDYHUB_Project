@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { FileText, Upload, X } from 'lucide-react';
 import { toast } from 'sonner';
 
+//subject list
 const subjects = [
   'Technology',
   'Science',
@@ -11,7 +12,7 @@ const subjects = [
   'Python Programming',
   'Data Science',
   'Artificial Intelligence',
-];
+]; 
 
 export default function UploadDocumentPage() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -22,20 +23,28 @@ export default function UploadDocumentPage() {
     tags: '',
     description: '',
   });
-
+  
   const fileSize = useMemo(() => {
     if (!selectedFile) return '';
-    const sizeInMb = selectedFile.size / (1024 * 1024);
-    return `${sizeInMb.toFixed(sizeInMb >= 1 ? 1 : 2)} MB`;
-  }, [selectedFile]);
+    const sizeInMb = selectedFile.size / (1024 * 1024); //Byte to MB
+    return `${sizeInMb.toFixed(sizeInMb >= 1 ? 1 : 2)} MB`; 
+    //Nếu >=1 MB thì lấy 1 chữ số thập phân, còn < 1MB thì lấy 2 chữ số thập phân 
+  }, [selectedFile]); 
 
+  //Thay đổi/Ghi nội dung thông tin của file upload lên trang web
   const handleChange = (event) => {
     const { name, value } = event.target;
+    //name có thể là title, subject, ... các tên biến của formData trên
+    //value là giá trị sẽ thay đổi, có thể đổi subject thành Technology hay gì đó 
     setFormData((current) => ({ ...current, [name]: value }));
+    //current là data hiện tại đang nhập
   };
 
+
   const handleFileChange = (event) => {
-    const file = event.target.files?.[0];
+    const file = event.target.files?.[0]; 
+    //Dấu "?." tránh lỗi khi không có file
+    //[0] là lấy file đầu trong list file user chọn, app hiện tại chỉ cho up 1 file
     if (!file) return;
 
     setSelectedFile(file);
@@ -43,12 +52,16 @@ export default function UploadDocumentPage() {
       ...current,
       title: current.title || file.name.replace(/\.[^/.]+$/, ''),
     }));
+    //Ô title đang trống thì lấy luôn tên file làm title
+    //file.name.replace(/\.[^/.]+$/, '') sẽ loại bỏ đuôi file (như .pdf, .docs., .docx, ...)
   };
 
+  //Chỉ xóa file đang chọn
   const handleRemoveFile = () => {
     setSelectedFile(null);
   };
 
+  //Xóa toàn bộ nd và file đang chọn
   const handleClear = () => {
     setSelectedFile(null);
     setFormData({
@@ -66,7 +79,7 @@ export default function UploadDocumentPage() {
     if (!selectedFile) {
       toast.error('Please choose a document to upload.');
       return;
-    }
+    } 
 
     if (!formData.title.trim() || !formData.subject) {
       toast.error('Please fill in the title and subject.');
