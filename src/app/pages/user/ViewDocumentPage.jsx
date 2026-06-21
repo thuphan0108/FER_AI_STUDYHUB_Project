@@ -3,7 +3,7 @@ import { ArrowLeft, FileText, MoreVertical, Trash2 } from 'lucide-react';
 import { Dropdown } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import { deleteDocument, getDocuments } from '../../Service/UploadPage';
+import { deleteDocument, getDocuments } from '../../data/UploadPage';
 
 function formatDate(value) {
   if (!value) return '-';

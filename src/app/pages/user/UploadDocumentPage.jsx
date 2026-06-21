@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { FileText, Upload, X } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import { addDocument } from '../../Service/UploadPage';
+import { addDocument } from '../../data/UploadPage';
 
 //subject list
 const subjects = [
