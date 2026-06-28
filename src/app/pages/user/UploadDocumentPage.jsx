@@ -4,25 +4,12 @@ import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { addDocument } from '../../data/UploadPage';
 
-//subject list
-const subjects = [
-  'Technology',
-  'Science',
-  'Mathematics',
-  'Business',
-  'Java Programming',
-  'Python Programming',
-  'Data Science',
-  'Artificial Intelligence',
-]; 
-
 export default function UploadDocumentPage() {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
-    subject: '',
     visibility: 'public',
     tags: '',
     description: '',
@@ -38,8 +25,6 @@ export default function UploadDocumentPage() {
   //Thay đổi/Ghi nội dung thông tin của file upload lên trang web
   const handleChange = (event) => {
     const { name, value } = event.target;
-    //name có thể là title, subject, ... các tên biến của formData trên
-    //value là giá trị sẽ thay đổi, có thể đổi subject thành Technology hay gì đó 
     setFormData((current) => ({ ...current, [name]: value }));
     //current là data hiện tại đang nhập
   };
@@ -70,7 +55,6 @@ export default function UploadDocumentPage() {
     setSelectedFile(null);
     setFormData({
       title: '',
-      subject: '',
       visibility: 'public',
       tags: '',
       description: '',
@@ -85,8 +69,8 @@ export default function UploadDocumentPage() {
       return;
     } 
 
-    if (!formData.title.trim() || !formData.subject) {
-      toast.error('Please fill in the title and subject.');
+    if (!formData.title.trim()) {
+      toast.error('Please fill in the title.');
       return;
     }
 
@@ -94,7 +78,6 @@ export default function UploadDocumentPage() {
       setIsSubmitting(true);
       await addDocument({
         title: formData.title.trim(),
-        subject: formData.subject,
         visibility: formData.visibility,
         tags: formData.tags,
         description: formData.description,
@@ -197,17 +180,7 @@ export default function UploadDocumentPage() {
                       />
                     </div>
 
-                    <div className="col-12 col-md-6">
-                      <label className="form-label fw-semibold text-dark" htmlFor="subject">Subject</label>
-                      <select id="subject" name="subject" className="form-select" value={formData.subject} onChange={handleChange}>
-                        <option value="">Select subject</option>
-                        {subjects.map((subject) => (
-                          <option key={subject} value={subject}>{subject}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="col-12 col-md-6">
+                    <div className="col-12">
                       <label className="form-label fw-semibold text-dark" htmlFor="visibility">Visibility</label>
                       <select id="visibility" name="visibility" className="form-select" value={formData.visibility} onChange={handleChange}>
                         <option value="public">Public</option>

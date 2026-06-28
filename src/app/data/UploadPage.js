@@ -1,4 +1,4 @@
-const API_URL = 'https://6a309729a7f8866418d62996.mockapi.io/FER';
+const API_URL = 'https://6a41389f1ff1d27becc15c4a.mockapi.io/FER';
 
 async function request(endpoint = '', options = {}) {
   const response = await fetch(`${API_URL}${endpoint}`, {
