@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, FileText, MoreVertical, Trash2 } from 'lucide-react';
-import { Dropdown } from 'react-bootstrap';
+import { ArrowLeft, Edit2, FileText, MoreVertical, Trash2 } from 'lucide-react';
+import { Button, Dropdown, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import { deleteDocument, getDocuments } from '../../data/UploadPage';
+import { deleteDocument, getDocuments, updateDocument } from '../../data/UploadPage';
 
 function formatDate(value) {
   if (!value) return '-';
@@ -46,6 +46,14 @@ export default function ViewDocumentPage() {
   const [documents, setDocuments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
+  const [editingDocument, setEditingDocument] = useState(null);
+  const [editForm, setEditForm] = useState({
+    title: '',
+    tags: '',
+    visibility: 'public',
+    description: '',
+  });
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const sortedDocuments = useMemo(() => {
     return [...documents].sort((first, second) => {
@@ -93,17 +101,82 @@ export default function ViewDocumentPage() {
     }
   };
 
+  const handleOpenEdit = (document) => {
+    setEditingDocument(document);
+    setEditForm({
+      title: document.title || '',
+      tags: document.tags || '',
+      visibility: document.visibility || (document.status === 'PRIVATE' ? 'private' : 'public'),
+      description: document.description || '',
+    });
+  };
+
+  const handleCloseEdit = () => {
+    if (isUpdating) return;
+    setEditingDocument(null);
+  };
+
+  const handleEditChange = (event) => {
+    const { name, value } = event.target;
+    setEditForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+
+    if (!editingDocument) return;
+
+    if (!editForm.title.trim()) {
+      toast.error('Please fill in the title.');
+      return;
+    }
+
+    const updatedDocument = {
+      ...editingDocument,
+      title: editForm.title.trim(),
+      tags: editForm.tags,
+      visibility: editForm.visibility,
+      description: editForm.description,
+      status: editForm.visibility === 'private' ? 'PRIVATE' : editingDocument.status === 'PRIVATE' ? 'PENDING' : editingDocument.status,
+    };
+
+    try {
+      setIsUpdating(true);
+      const savedDocument = await updateDocument(editingDocument.id, updatedDocument);
+      setDocuments((current) => current.map((document) => (
+        document.id === editingDocument.id ? savedDocument : document
+      )));
+      toast.success('Document updated successfully.');
+      setEditingDocument(null);
+    } catch (error) {
+      toast.error(error.message || 'Could not update document.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
   return (
     <div className="container-fluid px-4 py-4 py-md-5">
+      <div className="d-flex align-items-center justify-content-between mb-4">
       <button
         type="button"
-        className="btn btn-link d-inline-flex align-items-center gap-2 text-decoration-none px-0 mb-4"
+        className="btn btn-link d-inline-flex align-items-center gap-2 text-decoration-none px-0"
         style={{ color: '#667085', fontWeight: 600 }}
         onClick={() => navigate('/user/home')}
       >
         <ArrowLeft size={18} />
         Quay về Trang chủ
       </button>
+
+      <Button
+        variant='secondary'
+        className="d-inline-flex align-items-center justify-content-center"
+        style={{ width: '40px', height: '40px', borderRadius: '50%', fontWeight: 700 }}
+        onClick={() => navigate('/upload')}
+      >
+        +
+      </Button>
+      </div>
 
       <div className="mb-5">
         <h1 className="fw-bold mb-1" style={{ color: '#001A41', fontSize: '2.25rem' }}>
@@ -126,7 +199,7 @@ export default function ViewDocumentPage() {
           <thead>
             <tr>
               <th className="py-3 px-3">Title</th>
-              <th className="py-3 px-3">Subject</th>
+              <th className="py-3 px-3">Tag</th>
               <th className="py-3 px-3">Date</th>
               <th className="py-3 px-3">Size</th>
               <th className="py-3 px-3">Status</th>
@@ -155,7 +228,7 @@ export default function ViewDocumentPage() {
                 return (
                   <tr key={document.id}>
                     <td className="py-3 px-3 fw-semibold">{document.title || document.fileName || 'Untitled Document'}</td>
-                    <td className="py-3 px-3">{document.subject || '-'}</td>
+                    <td className="py-3 px-3">{document.tags || '-'}</td>
                     <td className="py-3 px-3">{formatDate(document.date || document.createdAt)}</td>
                     <td className="py-3 px-3">{document.size || '-'}</td>
                     <td className="py-3 px-3">
@@ -186,6 +259,13 @@ export default function ViewDocumentPage() {
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="shadow-sm border-0">
                           <Dropdown.Item
+                            className="d-flex align-items-center gap-2"
+                            onClick={() => handleOpenEdit(document)}
+                          >
+                            <Edit2 size={16} />
+                            Edit
+                          </Dropdown.Item>
+                          <Dropdown.Item
                             className="d-flex align-items-center gap-2 text-danger"
                             onClick={() => handleDelete(document.id)}
                           >
@@ -202,6 +282,63 @@ export default function ViewDocumentPage() {
           </tbody>
         </table>
       </div>
+
+      <Modal show={Boolean(editingDocument)} onHide={handleCloseEdit} centered>
+        <Form onSubmit={handleUpdate}>
+          <Modal.Header closeButton={!isUpdating}>
+            <Modal.Title>Edit document</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className="mb-3" controlId="edit-title">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                name="title"
+                value={editForm.title}
+                onChange={handleEditChange}
+                placeholder="Enter document title"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="edit-tags">
+              <Form.Label>Tags</Form.Label>
+              <Form.Control
+                name="tags"
+                value={editForm.tags}
+                onChange={handleEditChange}
+                placeholder="ai, lecture notes, final exam"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="edit-visibility">
+              <Form.Label>Visibility</Form.Label>
+              <Form.Select name="visibility" value={editForm.visibility} onChange={handleEditChange}>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group controlId="edit-description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                name="description"
+                value={editForm.description}
+                onChange={handleEditChange}
+                placeholder="Add a short summary for this document"
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="outline-secondary" onClick={handleCloseEdit} disabled={isUpdating}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="secondary" disabled={isUpdating}>
+              {isUpdating ? 'Saving...' : 'Save changes'}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
     </div>
   );
 }

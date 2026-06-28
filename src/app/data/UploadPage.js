@@ -32,3 +32,10 @@ export function deleteDocument(id) {
     method: 'DELETE',
   });
 }
+
+export function updateDocument(id, document) {
+  return request(`/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(document),
+  });
+}
