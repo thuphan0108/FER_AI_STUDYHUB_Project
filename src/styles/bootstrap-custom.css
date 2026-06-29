@@ -321,6 +321,13 @@
   --bs-card-border-color: var(--border);
 }
 
+.dark .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--foreground);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.02);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.04);
+}
+
 .dark .form-control {
   background-color: var(--input-background);
   color: var(--foreground);
