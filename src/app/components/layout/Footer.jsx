@@ -47,7 +47,7 @@ export function Footer() {
               <button
                 type="submit"
                 className="btn btn-light text-danger"
-                style={{ color: '#C73866' }}
+                style={{ color: 'var(--primary)' }}
               >
                 <ArrowRight className="h-4 w-4" />
               </button>

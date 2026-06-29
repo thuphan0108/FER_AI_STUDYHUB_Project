@@ -33,10 +33,10 @@ export default function VerifyEmailPage() {
             width: '64px',
             height: '64px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, rgba(253, 143, 82, 0.15) 0%, rgba(255, 189, 113, 0.15) 100%)'
+            background: 'var(--surface-hover)'
           }}
         >
-          <Mail size={32} style={{ color: '#FD8F52' }} />
+          <Mail size={32} style={{ color: 'var(--primary)' }} />
         </div>
         
         <h2 className="fw-bold mb-2" style={{ color: 'var(--text-dark)' }}>Verify Your Email</h2>
@@ -54,8 +54,8 @@ export default function VerifyEmailPage() {
               style={{ 
                 maxWidth: '220px', 
                 letterSpacing: '12px', 
-                border: '2px solid rgba(253, 143, 82, 0.4)',
-                color: '#FD8F52',
+                border: '2px solid var(--input-border)',
+                color: 'var(--primary)',
                 paddingLeft: '24px' // Bù trừ khoảng cách do letter-spacing tạo ra
               }}
               value={otp}
@@ -69,7 +69,7 @@ export default function VerifyEmailPage() {
           <Button 
             type="submit" 
             className="w-100 btn-primary-gradient py-2 rounded-3 fw-semibold border-0 shadow-sm"
-            style={{ backgroundColor: '#FD8F52', color: 'white' }}
+            style={{ color: 'white' }}
           >
             Verify Email
           </Button>
@@ -80,7 +80,7 @@ export default function VerifyEmailPage() {
               type="button"
               onClick={handleResend}
               className="bg-transparent border-0 p-0 text-decoration-none fw-medium transition-all"
-              style={{ color: '#FD8F52', fontSize: '0.9rem' }}
+              style={{ color: 'var(--primary)', fontSize: '0.9rem' }}
             >
               Didn't receive the code? Resend
             </button>

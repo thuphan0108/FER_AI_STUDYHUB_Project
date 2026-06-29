@@ -20,7 +20,7 @@ export function AuthLayout() {
             <h1
               className="mb-0 fw-bold"
               style={{
-                background: 'linear-gradient(to right, #C73866, #FD8F52, #FFBD71)',
+                background: 'var(--logo-gradient)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontSize: '2.2rem',

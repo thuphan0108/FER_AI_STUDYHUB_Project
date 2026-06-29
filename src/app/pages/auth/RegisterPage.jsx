@@ -96,7 +96,7 @@ export default function RegisterPage() {
           <Button 
             type="submit" 
             className="w-100 btn-primary-gradient py-2 rounded-3 fw-semibold mt-3 border-0 shadow-sm"
-            style={{ backgroundColor: '#FD8F52', color: 'white' }}
+            style={{ color: 'white' }}
           >
             Register
           </Button>

@@ -140,7 +140,7 @@ export default function ProfilePage() {
                             <button
                                 type="submit"
                                 className="btn text-white px-4 py-2 border-0 fw-bold"
-                                style={{ background: 'linear-gradient(135deg, #C73866, #FD8F52)' }}
+                                style={{ background: 'var(--btn-gradient)' }}
                             >
                                 Save Changes
                             </button>
@@ -194,7 +194,7 @@ export default function ProfilePage() {
                             <button
                                 type="submit"
                                 className="btn text-white px-4 py-2 border-0 fw-bold align-self-start mt-2"
-                                style={{ background: 'linear-gradient(135deg, #C73866, #FD8F52)' }}
+                                style={{ background: 'var(--btn-gradient)' }}
                             >
                                 Update Password
                             </button>

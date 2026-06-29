@@ -25,7 +25,7 @@ export default function GuestHomePage() {
       <div className="card shadow-sm mb-4" style={{ borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--card)' }}>
         <div className="card-body p-4 text-start">
           <div className="d-flex align-items-center gap-2 mb-4">
-            <div className="rounded" style={{ width: '4px', height: '24px', background: 'linear-gradient(to bottom, #C73866, #FD8F52)' }}></div>
+            <div className="rounded" style={{ width: '4px', height: '24px', background: 'var(--btn-gradient)' }}></div>
             <h5 className="mb-0 fw-bold" style={{ color: 'var(--text-dark)' }}>DOCUMENT CATEGORIES FOR YOU</h5>
           </div>
 

@@ -97,7 +97,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             className="w-100 btn-primary-gradient py-2 rounded-3 fw-semibold mt-2 border-0"
-            style={{ backgroundColor: '#FD8F52', color: 'white' }}
+            style={{ color: 'white' }}
           >
             Log In
           </Button>

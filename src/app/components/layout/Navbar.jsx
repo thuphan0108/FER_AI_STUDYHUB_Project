@@ -54,7 +54,7 @@ export function Navbar() {
                         />
 
                         <div className="d-none d-md-block text-start">
-                            <h5 className="mb-0 fw-bold" style={{ background: 'linear-gradient(to right, #C73866, #FD8F52, #FFBD71)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontSize: '1.1rem' }}>StudyDocs AI</h5>
+                            <h5 className="mb-0 fw-bold" style={{ background: 'var(--logo-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontSize: '1.1rem' }}>StudyDocs AI</h5>
                             <p className="mb-0" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Document Management</p>
                         </div>
                     </Link>
@@ -88,7 +88,7 @@ export function Navbar() {
                         <button
                             type="submit"
                             className="btn text-white px-3 border-0 d-flex align-items-center"
-                            style={{ background: 'linear-gradient(135deg, #C73866, #FD8F52)' }}
+                            style={{ background: 'var(--btn-gradient)' }}
                         >
                             <Search className="h-4 w-4" />
                         </button>
@@ -229,14 +229,14 @@ export function Navbar() {
                             <button
                                 onClick={() => navigate('/auth/login')}
                                 className="btn btn-sm"
-                                style={{ borderColor: '#FD8F52', color: '#FD8F52', borderRadius: '20px', padding: '0.4rem 1.2rem', fontWeight: '500', backgroundColor: 'transparent' }}
+                                style={{ borderColor: 'var(--primary)', color: 'var(--primary)', borderRadius: '20px', padding: '0.4rem 1.2rem', fontWeight: '500', backgroundColor: 'transparent' }}
                             >
                                 Login
                             </button>
                             <button
                                 onClick={() => navigate('/auth/register')}
                                 className="btn btn-sm text-white border-0"
-                                style={{ background: 'linear-gradient(135deg, #C73866, #FD8F52)', borderRadius: '20px', padding: '0.4rem 1.2rem', fontWeight: '500' }}
+                                style={{ background: 'var(--btn-gradient)', borderRadius: '20px', padding: '0.4rem 1.2rem', fontWeight: '500' }}
                             >
                                 Register
                             </button>
