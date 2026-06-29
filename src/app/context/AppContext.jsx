@@ -11,6 +11,17 @@ const initialReports = [
   { id: 6, documentTitle: 'CSS Grid Layout Tutorial', documentId: 9, reportedBy: 'Nguyen Van A', reason: 'Copyright Infringement', description: 'Uses images and code snippets from my premium tutorial without permission or credit.', reportedAt: '2025-01-28', status: 'resolved', action: 'removed', resolvedAt: '2025-01-29' },
 ];
 
+const initialUsers = [
+  { id: '1', name: 'Nguyen Van A', email: 'nguyenvana@example.com', avatar: '', major: 'Artificial Intelligence', registeredAt: '2024-09-15', status: 'active', warnings: 0 },
+  { id: '2', name: 'Tran Thi B', email: 'tranthib@example.com', avatar: '', major: 'Mathematics', registeredAt: '2024-10-01', status: 'active', warnings: 0 },
+  { id: '3', name: 'Le Van C', email: 'levanc@example.com', avatar: '', major: 'Technology', registeredAt: '2024-10-20', status: 'warned', warnings: 1 },
+  { id: '4', name: 'Pham Thi D', email: 'phamthid@example.com', avatar: '', major: 'Python Programming', registeredAt: '2024-11-05', status: 'active', warnings: 0 },
+  { id: '5', name: 'Hoang Van E', email: 'hoangvane@example.com', avatar: '', major: 'Business', registeredAt: '2024-11-15', status: 'active', warnings: 0 },
+  { id: '6', name: 'Ngo Thi F', email: 'ngothif@example.com', avatar: '', major: 'Cybersecurity', registeredAt: '2024-12-01', status: 'banned', warnings: 3 },
+  { id: '7', name: 'John Doe', email: 'john@example.com', avatar: '', major: 'Computer Science', registeredAt: '2025-01-05', status: 'active', warnings: 0 },
+  { id: '8', name: 'Admin User', email: 'admin@studydocs.ai', avatar: '', major: 'System Admin', registeredAt: '2024-01-01', status: 'active', warnings: 0 },
+];
+
 const initialDocs = [
   { id: 1, title: 'Introduction to Machine Learning', author: 'Nguyen Van A', subject: 'Artificial Intelligence', uploadedAt: '2024-12-10', status: 'pending' },
   { id: 2, title: 'Advanced Calculus Solutions', author: 'Tran Thi B', subject: 'Mathematics', uploadedAt: '2024-12-12', status: 'pending' },
@@ -34,6 +45,16 @@ function loadUser() {
 
 function loadAdminMode() {
   return localStorage.getItem('app_admin') === 'true';
+}
+
+function loadUsers() {
+  try {
+    const saved = localStorage.getItem('app_users');
+    if (saved) return JSON.parse(saved);
+    return initialUsers;
+  } catch {
+    return initialUsers;
+  }
 }
 
 function loadDocuments() {
@@ -61,6 +82,7 @@ export function AppProvider({ children }) {
   const [isAdminMode, setIsAdminMode] = useState(loadAdminMode);
   const [documents, setDocuments] = useState(loadDocuments);
   const [reports, setReports] = useState(loadReports);
+  const [users, setUsers] = useState(loadUsers);
 
   useEffect(() => {
     if (user) {
@@ -81,6 +103,10 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('app_reports', JSON.stringify(reports));
   }, [reports]);
+
+  useEffect(() => {
+    localStorage.setItem('app_users', JSON.stringify(users));
+  }, [users]);
 
   const login = useCallback((email, password) => {
     const isAdmin = email === 'admin@studydocs.ai';
@@ -107,18 +133,26 @@ export function AppProvider({ children }) {
   }, []);
 
   const register = useCallback((name, email, password) => {
+    const userId = String(Date.now());
     const newUser = {
-      id: String(Date.now()),
+      id: userId,
       name,
       email,
       avatar: '',
       major: '',
+      registeredAt: new Date().toISOString().slice(0, 10),
+      status: 'active',
+      warnings: 0,
+    };
+    setUser({
+      ...newUser,
       storageUsed: 0,
       storageLimit: 2 * 1024 * 1024 * 1024,
       isPremium: false,
       role: 'user',
-    };
-    setUser(newUser);
+    });
+
+    setUsers((prev) => [...prev, newUser]);
 
     setDocuments((prev) => [
       ...prev,
@@ -151,6 +185,10 @@ export function AppProvider({ children }) {
     setReports((prev) => prev.map((r) => (r.id === id ? { ...r, ...updates } : r)));
   }, []);
 
+  const updateUserStatus = useCallback((id, updates) => {
+    setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, ...updates } : u)));
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -159,6 +197,7 @@ export function AppProvider({ children }) {
         isAdminMode,
         documents,
         reports,
+        users,
         login,
         logout,
         register,
@@ -166,6 +205,7 @@ export function AppProvider({ children }) {
         updateProfile,
         updateDocumentStatus,
         updateReportStatus,
+        updateUserStatus,
       }}
     >
       {children}
