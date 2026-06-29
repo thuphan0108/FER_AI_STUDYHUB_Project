@@ -27,9 +27,12 @@ export default function LoginPage() {
       try {
         await login(email, password);
         toast.success('Login successful!');
-        // Logic điều hướng đã được useEffect ở trên tự động xử lý khi 'user' cập nhật thành công
       } catch (error) {
-        toast.error('Login failed! Please check your credentials.');
+        if (error.message === 'BANNED') {
+          toast.error('Your account has been banned. Please contact support for assistance.');
+        } else {
+          toast.error('Login failed! Please check your credentials.');
+        }
       }
     } else {
       toast.error('Please fill in all fields');
@@ -40,9 +43,12 @@ export default function LoginPage() {
     try {
       await login('user@gmail.com', 'dummy_password');
       toast.success('Login with Google successful!');
-      // Logic điều hướng đã được useEffect ở trên tự động xử lý
     } catch (error) {
-      toast.error('Google login failed!');
+      if (error.message === 'BANNED') {
+        toast.error('Your account has been banned. Please contact support for assistance.');
+      } else {
+        toast.error('Google login failed!');
+      }
     }
   };
 

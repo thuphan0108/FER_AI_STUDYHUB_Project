@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 
 const AppContext = createContext(undefined);
 
@@ -83,6 +83,8 @@ export function AppProvider({ children }) {
   const [documents, setDocuments] = useState(loadDocuments);
   const [reports, setReports] = useState(loadReports);
   const [users, setUsers] = useState(loadUsers);
+  const usersRef = useRef(users);
+  useEffect(() => { usersRef.current = users; }, [users]);
 
   useEffect(() => {
     if (user) {
@@ -110,6 +112,12 @@ export function AppProvider({ children }) {
 
   const login = useCallback((email, password) => {
     const isAdmin = email === 'admin@studydocs.ai';
+
+    const bannedUser = usersRef.current.find((u) => u.email === email && u.status === 'banned');
+    if (bannedUser) {
+      throw new Error('BANNED');
+    }
+
     const userData = {
       id: isAdmin ? 'admin-1' : '1',
       name: isAdmin ? 'Admin User' : 'John Doe',
