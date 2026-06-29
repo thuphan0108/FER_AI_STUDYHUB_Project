@@ -2,15 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router';
 import { toast } from 'sonner';
 import { ArrowLeft, Search, Check, X, FileText, Clock, Download } from 'lucide-react';
-
-const initialDocs = [
-  { id: 1, title: 'Introduction to Machine Learning', author: 'Nguyen Van A', subject: 'Artificial Intelligence', uploadedAt: '2024-12-10', status: 'pending' },
-  { id: 2, title: 'Advanced Calculus Solutions', author: 'Tran Thi B', subject: 'Mathematics', uploadedAt: '2024-12-12', status: 'pending' },
-  { id: 3, title: 'Web Development with React', author: 'Le Van C', subject: 'Technology', uploadedAt: '2024-12-14', status: 'pending' },
-  { id: 4, title: 'Data Structures in Python', author: 'Pham Thi D', subject: 'Python Programming', uploadedAt: '2024-12-15', status: 'pending' },
-  { id: 5, title: 'Business Strategy Fundamentals', author: 'Hoang Van E', subject: 'Business', uploadedAt: '2024-12-16', status: 'pending' },
-  { id: 6, title: 'Cybersecurity Best Practices', author: 'Ngo Thi F', subject: 'Cybersecurity', uploadedAt: '2024-12-18', status: 'pending' },
-];
+import { useApp } from '../../context/AppContext.jsx';
 
 const tabs = [
   { key: 'all', label: 'All' },
@@ -20,11 +12,12 @@ const tabs = [
 ];
 
 export default function PendingDocumentsPage() {
-  const [documents, setDocuments] = useState(initialDocs);
+  const { documents, updateDocumentStatus } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState('all');
   const [rejectModal, setRejectModal] = useState(null);
   const [rejectReason, setRejectReason] = useState('');
+  const [reasonViewModal, setReasonViewModal] = useState(null);
 
   const filteredDocs = useMemo(() => {
     let list = documents;
@@ -48,9 +41,9 @@ export default function PendingDocumentsPage() {
   }), [documents]);
 
   const handleApprove = (id) => {
-    setDocuments((prev) => prev.map((d) => d.id === id ? { ...d, status: 'approved' } : d));
+    updateDocumentStatus(id, { status: 'approved' });
     const doc = documents.find((d) => d.id === id);
-    toast.success(`"${doc.title}" has been approved`);
+    toast.success(`"${doc?.title}" has been approved`);
   };
 
   const handleReject = () => {
@@ -58,9 +51,7 @@ export default function PendingDocumentsPage() {
       toast.error('Please provide a reason for rejection');
       return;
     }
-    setDocuments((prev) => prev.map((d) =>
-      d.id === rejectModal.id ? { ...d, status: 'rejected', reason: rejectReason } : d
-    ));
+    updateDocumentStatus(rejectModal.id, { status: 'rejected', reason: rejectReason });
     toast.success(`"${rejectModal.title}" has been rejected`);
     setRejectModal(null);
     setRejectReason('');
@@ -250,13 +241,13 @@ export default function PendingDocumentsPage() {
                           </div>
                         )}
                         {doc.status === 'rejected' && doc.reason && (
-                          <span
-                            className="small"
-                            style={{ color: 'var(--text-muted)', fontSize: '12px' }}
-                            title={doc.reason}
+                          <button
+                            onClick={() => setReasonViewModal(doc)}
+                            className="btn btn-sm p-0 border-0 small"
+                            style={{ color: 'var(--destructive)', fontSize: '12px', textDecoration: 'underline', textUnderlineOffset: '2px', textDecorationColor: 'var(--border)' }}
                           >
                             {doc.reason.length > 25 ? doc.reason.substring(0, 25) + '...' : doc.reason}
-                          </span>
+                          </button>
                         )}
                       </td>
                     </tr>
@@ -277,6 +268,66 @@ export default function PendingDocumentsPage() {
           </div>
         </div>
       </div>
+
+      {/* Reason View Modal */}
+      {reasonViewModal && (
+        <div
+          className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1060, backdropFilter: 'blur(4px)' }}
+          onClick={() => setReasonViewModal(null)}
+        >
+          <div
+            className="card shadow-lg border-0 p-4 mx-3"
+            style={{ maxWidth: '480px', width: '100%', borderRadius: '1rem', backgroundColor: 'var(--card)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="d-flex align-items-center gap-3 mb-3">
+              <div
+                className="d-flex align-items-center justify-content-center flex-shrink-0"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '10px',
+                  backgroundColor: 'var(--surface-hover)',
+                }}
+              >
+                <X className="h-5 w-5" style={{ color: 'var(--destructive)' }} />
+              </div>
+              <div>
+                <h5 className="fw-bold mb-0" style={{ color: 'var(--text-dark)' }}>Rejection Reason</h5>
+                <p className="mb-0" style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
+                  {reasonViewModal.title}
+                </p>
+              </div>
+            </div>
+
+            <div
+              className="p-3 rounded-3 mb-3"
+              style={{ backgroundColor: 'var(--surface-hover)', border: '1px solid var(--border)' }}
+            >
+              <p className="mb-0" style={{ color: 'var(--foreground)', fontSize: '14px', lineHeight: '1.6' }}>
+                {reasonViewModal.reason}
+              </p>
+            </div>
+
+            <div className="d-flex justify-content-end">
+              <button
+                onClick={() => setReasonViewModal(null)}
+                className="btn btn-sm fw-semibold px-4 py-2"
+                style={{
+                  color: 'var(--text-muted)',
+                  backgroundColor: 'transparent',
+                  border: '1px solid var(--border)',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Reject Modal */}
       {rejectModal && (
