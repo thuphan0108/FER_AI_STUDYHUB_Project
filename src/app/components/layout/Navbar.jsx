@@ -81,7 +81,7 @@ export function Navbar() {
                 </div>
 
                 {/* CHÍNH GIỮA: THANH TÌM KIẾM TOÀN CỤC */}
-                <form onSubmit={handleSearchSubmit} className="flex-grow-1 d-none d-md-flex justify-content-center" style={{ maxWidth: '450px' }}>
+                <form onSubmit={handleSearchSubmit} className="flex-grow-1 d-flex justify-content-center" style={{ maxWidth: '450px' }}>
                     <div className="input-group input-group-sm w-100" style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--input-border)' }}>
                         <input
                             type="search"
