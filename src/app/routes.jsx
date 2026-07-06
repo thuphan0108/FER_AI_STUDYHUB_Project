@@ -17,6 +17,7 @@ import ViewDocumentPage from "./pages/user/ViewDocumentPage";
 import EditDocumentPage from "./pages/user/EditDocumentPage";
 import SearchDocumentPage from "./pages/user/SearchDocumentPage";
 import ChatHistoryPage from "./pages/user/ChatHistoryPage";
+import NotificationPage from "./pages/user/NotificationPage";
 import UpgradeStoragePage from "./pages/user/UpgradeStoragePage";
 import UserDocumentDetailPage from "./pages/document/UserDocumentDetailPage";
 import AdminHomePage from "./pages/admin/AdminHomePage";
@@ -75,6 +76,7 @@ export const router = createBrowserRouter([
       { path: "/document/:id/view", element: <ProtectedRoute><ViewDocumentPage /></ProtectedRoute> },
       { path: "/document/:id/edit", element: <ProtectedRoute><EditDocumentPage /></ProtectedRoute> },
       { path: "/chat-history", element: <ProtectedRoute><ChatHistoryPage /></ProtectedRoute> },
+      { path: "/notifications", element: <ProtectedRoute><NotificationPage /></ProtectedRoute> },
       { path: "/upgrade", element: <ProtectedRoute><UpgradeStoragePage /></ProtectedRoute> },
 
       // Admin routes

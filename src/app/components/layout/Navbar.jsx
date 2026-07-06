@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router';
 import { useApp } from '../../context/AppContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -7,6 +7,7 @@ import {
     Upload, Search, ChevronDown, MessageSquare, Shield, LayoutDashboard, Sun, Moon
 } from 'lucide-react';
 import { Dropdown } from 'react-bootstrap';
+import { getNotificationDisplayTime, getNotifications } from '../../data/Notification';
 
 import logoImg from '/src/image/logo.jpg';
 
@@ -16,8 +17,35 @@ export function Navbar() {
     const navigate = useNavigate();
     const location = useLocation();
     const [searchVal, setSearchVal] = useState('');
+    const [notifications, setNotifications] = useState([]);
 
     const isActuallyAdminView = isAdminMode || location.pathname.startsWith('/admin');
+    const notificationCount = notifications.length;
+    const notificationBadge = notificationCount > 9 ? '9+' : String(notificationCount);
+    const previewNotifications = useMemo(() => notifications.slice(0, 4), [notifications]);
+
+    const loadNotifications = useCallback(async () => {
+        if (!user) {
+            setNotifications([]);
+            return;
+        }
+
+        try {
+            const data = await getNotifications();
+            setNotifications(Array.isArray(data) ? data : []);
+        } catch {
+            setNotifications([]);
+        }
+    }, [user]);
+
+    useEffect(() => {
+        loadNotifications();
+        const intervalId = window.setInterval(loadNotifications, 8000);
+
+        return () => {
+            window.clearInterval(intervalId);
+        };
+    }, [loadNotifications]);
 
     const handleLogout = () => {
         logout();
@@ -110,23 +138,53 @@ export function Navbar() {
                     {user ? (
                         <>
                             {/* CHUÔNG THÔNG BÁO */}
-                            <Dropdown align="end">
+                            <Dropdown align="end" onToggle={(isOpen) => { if (isOpen) loadNotifications(); }}>
                                 <Dropdown.Toggle as="div" className="position-relative cursor-pointer mt-1" id="notifications-dropdown" style={{ cursor: 'pointer' }}>
                                     <Bell className="h-6 w-6" style={{ cursor: 'pointer', color: 'var(--foreground)' }} />
-                                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white" style={{ fontSize: '9px', padding: '0.25em 0.4em', borderColor: 'var(--background)' }}>
-                                        3
-                                    </span>
+                                    {notificationCount > 0 && (
+                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white" style={{ fontSize: '9px', padding: '0.25em 0.4em', borderColor: 'var(--background)' }}>
+                                            {notificationBadge}
+                                        </span>
+                                    )}
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu className="shadow border-0 mt-2" style={{ width: '300px', backgroundColor: 'var(--card)', color: 'var(--card-foreground)' }}>
-                                    <Dropdown.Header className="fw-bold" style={{ color: 'var(--card-foreground)' }}>Notifications</Dropdown.Header>
+                                <Dropdown.Menu className="shadow border-0 mt-2" style={{ width: '340px', backgroundColor: 'var(--card)', color: 'var(--card-foreground)' }}>
+                                    <Dropdown.Header className="d-flex align-items-center justify-content-between fw-bold" style={{ color: 'var(--card-foreground)' }}>
+                                        <span>Notifications</span>
+                                        <span className="badge rounded-pill" style={{ backgroundColor: 'var(--muted)', color: 'var(--text-muted)' }}>
+                                            {notificationCount > 9 ? '9+' : notificationCount}
+                                        </span>
+                                    </Dropdown.Header>
                                     <Dropdown.Divider style={{ borderColor: 'var(--border)' }} />
-                                    <div className="p-2">
-                                        <Dropdown.Item className="p-2 rounded text-wrap border-0" style={{ backgroundColor: 'var(--muted)', color: 'var(--card-foreground)' }}>
-                                            <p className="mb-0 fw-bold" style={{ fontSize: '13px', color: 'var(--card-foreground)' }}>Document Approved</p>
-                                            <p className="mb-0" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                                                Your document "Introduction to AI" has been approved.
-                                            </p>
-                                        </Dropdown.Item>
+                                    <div className="p-2 d-flex flex-column gap-2">
+                                        {previewNotifications.length === 0 ? (
+                                            <div className="px-2 py-3 text-center">
+                                                <p className="mb-0" style={{ fontSize: '13px', color: 'var(--text-muted)' }}>No notifications yet</p>
+                                            </div>
+                                        ) : (
+                                            previewNotifications.map((notification) => (
+                                                <Dropdown.Item
+                                                    key={notification.id}
+                                                    className="p-2 rounded text-wrap border-0"
+                                                    style={{ backgroundColor: 'var(--muted)', color: 'var(--card-foreground)' }}
+                                                >
+                                                    <p className="mb-1" style={{ fontSize: '13px', color: 'var(--card-foreground)', lineHeight: 1.35 }}>
+                                                        <strong>{notification.user}</strong> has just uploaded <strong>{notification.document}</strong>
+                                                    </p>
+                                                    <p className="mb-0" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                                                        {getNotificationDisplayTime(notification)}
+                                                    </p>
+                                                </Dropdown.Item>
+                                            ))
+                                        )}
+                                        <Dropdown.Divider className="my-1" style={{ borderColor: 'var(--border)' }} />
+                                        <button
+                                            type="button"
+                                            className="btn btn-sm w-100 fw-semibold"
+                                            style={{ color: 'var(--primary)', backgroundColor: 'transparent' }}
+                                            onClick={() => navigate('/notifications')}
+                                        >
+                                            View all
+                                        </button>
                                     </div>
                                 </Dropdown.Menu>
                             </Dropdown>
