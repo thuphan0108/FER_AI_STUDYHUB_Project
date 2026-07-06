@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import { ArrowLeft, Search, Check, X, FileText, Clock, Download } from 'lucide-react';
+import { ArrowLeft, Search, Check, X, FileText, Clock, Download, Edit3 } from 'lucide-react';
 import { useApp } from '../../context/AppContext.jsx';
 
 const tabs = [
@@ -13,6 +13,7 @@ const tabs = [
 
 export default function PendingDocumentsPage() {
   const { documents, updateDocumentStatus } = useApp();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState('all');
   const [rejectModal, setRejectModal] = useState(null);
@@ -209,46 +210,62 @@ export default function PendingDocumentsPage() {
                         </span>
                       </td>
                       <td className="text-end pe-4 py-3">
-                        {doc.status === 'pending' && (
-                          <div className="d-flex gap-1 justify-content-end">
+                        <div className="d-flex gap-1 justify-content-end align-items-center">
+                          {doc.status === 'pending' && (
+                            <>
+                              <button
+                                onClick={() => handleApprove(doc.id)}
+                                className="btn btn-sm d-flex align-items-center gap-1 border-0 fw-medium"
+                                style={{
+                                  color: '#fff',
+                                  background: 'var(--btn-gradient)',
+                                  borderRadius: '6px',
+                                  padding: '0.3rem 0.8rem',
+                                  fontSize: '12px',
+                                }}
+                              >
+                                <Check className="h-3 w-3" /> Approve
+                              </button>
+                              <button
+                                onClick={() => setRejectModal(doc)}
+                                className="btn btn-sm d-flex align-items-center gap-1 fw-medium border-0"
+                                style={{
+                                  color: 'var(--destructive)',
+                                  backgroundColor: 'var(--surface-hover)',
+                                  borderRadius: '6px',
+                                  padding: '0.3rem 0.8rem',
+                                  fontSize: '12px',
+                                  border: '1px solid var(--destructive)',
+                                }}
+                              >
+                                <X className="h-3 w-3" /> Reject
+                              </button>
+                            </>
+                          )}
+                          {doc.status === 'rejected' && doc.reason && (
                             <button
-                              onClick={() => handleApprove(doc.id)}
-                              className="btn btn-sm d-flex align-items-center gap-1 border-0 fw-medium"
-                              style={{
-                                color: '#fff',
-                                background: 'var(--btn-gradient)',
-                                borderRadius: '6px',
-                                padding: '0.3rem 0.8rem',
-                                fontSize: '12px',
-                              }}
+                              onClick={() => setReasonViewModal(doc)}
+                              className="btn btn-sm p-0 border-0 small"
+                              style={{ color: 'var(--destructive)', fontSize: '12px', textDecoration: 'underline', textUnderlineOffset: '2px', textDecorationColor: 'var(--border)' }}
                             >
-                              <Check className="h-3 w-3" /> Approve
+                              {doc.reason.length > 25 ? doc.reason.substring(0, 25) + '...' : doc.reason}
                             </button>
-                            <button
-                              onClick={() => setRejectModal(doc)}
-                              className="btn btn-sm d-flex align-items-center gap-1 fw-medium border-0"
-                              style={{
-                                color: 'var(--destructive)',
-                                backgroundColor: 'var(--surface-hover)',
-                                borderRadius: '6px',
-                                padding: '0.3rem 0.8rem',
-                                fontSize: '12px',
-                                border: '1px solid var(--destructive)',
-                              }}
-                            >
-                              <X className="h-3 w-3" /> Reject
-                            </button>
-                          </div>
-                        )}
-                        {doc.status === 'rejected' && doc.reason && (
+                          )}
                           <button
-                            onClick={() => setReasonViewModal(doc)}
-                            className="btn btn-sm p-0 border-0 small"
-                            style={{ color: 'var(--destructive)', fontSize: '12px', textDecoration: 'underline', textUnderlineOffset: '2px', textDecorationColor: 'var(--border)' }}
+                            onClick={() => navigate(`/document/${doc.id}/edit`)}
+                            className="btn btn-sm d-flex align-items-center gap-1 fw-medium border-0"
+                            style={{
+                              color: 'var(--primary)',
+                              backgroundColor: 'var(--surface-hover)',
+                              borderRadius: '6px',
+                              padding: '0.3rem 0.6rem',
+                              fontSize: '11px',
+                              border: '1px solid var(--border)',
+                            }}
                           >
-                            {doc.reason.length > 25 ? doc.reason.substring(0, 25) + '...' : doc.reason}
+                            <Edit3 className="h-3 w-3" /> Edit
                           </button>
-                        )}
+                        </div>
                       </td>
                     </tr>
                   ))}

@@ -14,6 +14,7 @@ import UserHomePage from "./pages/user/HomePage";
 import ProfilePage from "./pages/user/ProfilePage";
 import UploadDocumentPage from "./pages/user/UploadDocumentPage";
 import ViewDocumentPage from "./pages/user/ViewDocumentPage";
+import MyDocumentsPage from "./pages/user/MyDocumentsPage";
 import EditDocumentPage from "./pages/user/EditDocumentPage";
 import SearchDocumentPage from "./pages/user/SearchDocumentPage";
 import ChatHistoryPage from "./pages/user/ChatHistoryPage";
@@ -67,7 +68,7 @@ export const router = createBrowserRouter([
       { path: "/user/home", element: <ProtectedRoute><UserHomePage /></ProtectedRoute> },
       { path: "/admin/home", element: <AdminRoute><AdminHomePage /></AdminRoute> },
       { path: "/profile", element: <ProtectedRoute><ProfilePage /></ProtectedRoute> },
-      { path: "/my-documents", element: <ProtectedRoute><ViewDocumentPage /></ProtectedRoute> },
+      { path: "/my-documents", element: <ProtectedRoute><MyDocumentsPage /></ProtectedRoute> },
       { path: "/upload", element: <ProtectedRoute><UploadDocumentPage /></ProtectedRoute> },
       { path: "/search", element: <SearchDocumentPage /> },
       { path: "/document/:id", element: <ProtectedRoute><UserDocumentDetailPage /></ProtectedRoute> },

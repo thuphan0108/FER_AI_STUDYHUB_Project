@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router';
 import { useApp } from '../../context/AppContext.jsx';
-import { FileText, CheckCircle, Clock, XCircle, X } from 'lucide-react';
+import { FileText, CheckCircle, Clock, XCircle, X, Edit3 } from 'lucide-react';
 
 export default function MyDocumentsPage() {
   const { user, documents } = useApp();
+  const navigate = useNavigate();
   const [reasonViewModal, setReasonViewModal] = useState(null);
 
   const myDocs = useMemo(() => {
@@ -77,7 +79,8 @@ export default function MyDocumentsPage() {
                   <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Subject</th>
                   <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Uploaded</th>
                   <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Status</th>
-                  <th className="text-end pe-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reason</th>
+                  <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reason</th>
+                  <th className="text-end pe-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -138,6 +141,22 @@ export default function MyDocumentsPage() {
                           {doc.status === 'pending' ? 'Awaiting review' : '—'}
                         </span>
                       )}
+                    </td>
+                    <td className="text-end pe-4 py-3">
+                      <button
+                        onClick={() => navigate(`/document/${doc.id}/edit`)}
+                        className="btn btn-sm d-inline-flex align-items-center gap-1 fw-medium border-0"
+                        style={{
+                          color: 'var(--primary)',
+                          backgroundColor: 'var(--surface-hover)',
+                          borderRadius: '6px',
+                          padding: '0.3rem 0.7rem',
+                          fontSize: '12px',
+                          border: '1px solid var(--border)',
+                        }}
+                      >
+                        <Edit3 className="h-3 w-3" /> Edit
+                      </button>
                     </td>
                   </tr>
                 ))}

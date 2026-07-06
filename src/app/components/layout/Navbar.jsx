@@ -17,7 +17,13 @@ export function Navbar() {
     const location = useLocation();
     const [searchVal, setSearchVal] = useState('');
 
-    const isActuallyAdminView = isAdminMode || location.pathname.startsWith('/admin');
+    const isActuallyAdminView = isAdminMode;
+
+    const handleToggleMode = () => {
+        const wasAdmin = isActuallyAdminView;
+        toggleAdminMode();
+        navigate(wasAdmin ? '/user/home' : '/admin/home');
+    };
 
     const handleLogout = () => {
         logout();
@@ -178,7 +184,7 @@ export function Navbar() {
                                             </Dropdown.Item>
 
                                             {user?.role === 'admin' && (
-                                                <Dropdown.Item onClick={toggleAdminMode} className="d-flex align-items-center gap-3 px-2 py-2 rounded border-0" style={{ color: 'var(--card-foreground)', backgroundColor: 'transparent' }}>
+                                                <Dropdown.Item onClick={handleToggleMode} className="d-flex align-items-center gap-3 px-2 py-2 rounded border-0" style={{ color: 'var(--card-foreground)', backgroundColor: 'transparent' }}>
                                                     <Shield className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
                                                     <span className="fw-medium" style={{ fontSize: '14px' }}>Switch to User Mode</span>
                                                 </Dropdown.Item>
@@ -207,7 +213,7 @@ export function Navbar() {
                                             </Dropdown.Item>
 
                                             {user?.role === 'admin' && (
-                                                <Dropdown.Item onClick={toggleAdminMode} className="d-flex align-items-center gap-3 px-2 py-2 rounded border-0" style={{ color: 'var(--card-foreground)', backgroundColor: 'transparent' }}>
+                                                <Dropdown.Item onClick={handleToggleMode} className="d-flex align-items-center gap-3 px-2 py-2 rounded border-0" style={{ color: 'var(--card-foreground)', backgroundColor: 'transparent' }}>
                                                     <Shield className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
                                                     <span className="fw-medium" style={{ fontSize: '14px' }}>Switch to Admin Mode</span>
                                                 </Dropdown.Item>

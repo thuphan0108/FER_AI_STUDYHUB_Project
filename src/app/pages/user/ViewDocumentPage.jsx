@@ -18,26 +18,26 @@ function getStatusStyle(status) {
   if (normalizedStatus === 'PRIVATE') {
     return {
       label: 'PRIVATE',
-      backgroundColor: '#FED99B',
-      borderColor: '#FED99B',
-      color: '#000000',
+      backgroundColor: 'var(--surface-hover)',
+      borderColor: 'var(--border)',
+      color: 'var(--text-muted)',
     };
   }
 
   if (normalizedStatus === 'APPROVED') {
     return {
       label: 'APPROVED',
-      backgroundColor: '#E6F7EC',
-      borderColor: '#BDECCF',
-      color: '#146C43',
+      backgroundColor: 'rgba(34,197,94,0.12)',
+      borderColor: 'rgba(34,197,94,0.3)',
+      color: '#22c55e',
     };
   }
 
   return {
     label: normalizedStatus,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#F6DCC7',
-    color: '#000000',
+    backgroundColor: 'var(--surface-hover)',
+    borderColor: 'var(--border)',
+    color: 'var(--foreground)',
   };
 }
 
@@ -156,69 +156,76 @@ export default function ViewDocumentPage() {
   };
 
   return (
-    <div className="container-fluid px-4 py-4 py-md-5">
+    <div className="container px-4 py-4 py-md-5" style={{ backgroundColor: 'var(--background)', minHeight: '100vh' }}>
       <div className="d-flex align-items-center justify-content-between mb-4">
-      <button
-        type="button"
-        className="btn btn-link d-inline-flex align-items-center gap-2 text-decoration-none px-0"
-        style={{ color: '#667085', fontWeight: 600 }}
-        onClick={() => navigate('/user/home')}
-      >
-        <ArrowLeft size={18} />
-        Quay về Trang chủ
-      </button>
+        <button
+          type="button"
+          className="btn btn-link d-inline-flex align-items-center gap-2 text-decoration-none px-0 fw-medium"
+          style={{ color: 'var(--text-muted)' }}
+          onClick={() => navigate('/user/home')}
+        >
+          <ArrowLeft size={18} />
+          Back to Home
+        </button>
 
-      <Button
-        variant='secondary'
-        className="d-inline-flex align-items-center justify-content-center"
-        style={{ width: '40px', height: '40px', borderRadius: '50%', fontWeight: 700 }}
-        onClick={() => navigate('/upload')}
-      >
-        +
-      </Button>
+        <Button
+          variant=""
+          className="d-inline-flex align-items-center justify-content-center border-0 fw-bold"
+          style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--primary)',
+            color: '#fff',
+          }}
+          onClick={() => navigate('/upload')}
+        >
+          +
+        </Button>
       </div>
 
       <div className="mb-5">
-        <h1 className="fw-bold mb-1" style={{ color: '#001A41', fontSize: '2.25rem' }}>
+        <h1 className="fw-bold mb-1" style={{ color: 'var(--text-dark)', fontSize: '2.25rem' }}>
           My Documents
         </h1>
-        <p className="mb-0" style={{ color: '#344054', fontSize: '1.25rem' }}>
+        <p className="mb-0" style={{ color: 'var(--text-muted)', fontSize: '1.25rem' }}>
           Manage your uploaded study materials
         </p>
       </div>
 
       <div
-        className="table-responsive bg-white"
+        className="table-responsive"
         style={{
-          border: '1px solid #FFE2CF',
+          border: '1px solid var(--border)',
           borderRadius: '10px',
           overflow: 'visible',
+          backgroundColor: 'var(--card)',
         }}
       >
-        <table className="table align-middle mb-0">
+        <table className="table align-middle mb-0" style={{ color: 'var(--foreground)' }}>
           <thead>
-            <tr>
-              <th className="py-3 px-3">Title</th>
-              <th className="py-3 px-3">Tag</th>
-              <th className="py-3 px-3">Date</th>
-              <th className="py-3 px-3">Size</th>
-              <th className="py-3 px-3">Status</th>
-              <th className="py-3 px-3 text-end">Actions</th>
+            <tr style={{ borderColor: 'var(--border)' }}>
+              <th className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>Title</th>
+              <th className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>Tag</th>
+              <th className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>Date</th>
+              <th className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>Size</th>
+              <th className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>Status</th>
+              <th className="py-3 px-3 text-end" style={{ color: 'var(--text-muted)' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan="6" className="text-center text-muted py-5">
+                <td colSpan="6" className="text-center py-5" style={{ color: 'var(--text-muted)' }}>
                   Loading documents...
                 </td>
               </tr>
             ) : sortedDocuments.length === 0 ? (
               <tr>
                 <td colSpan="6" className="text-center py-5">
-                  <FileText size={34} className="mb-2" style={{ color: '#FD8F52' }} />
-                  <p className="fw-semibold mb-1">No documents yet</p>
-                  <p className="text-muted mb-0">Upload a document to see it here.</p>
+                  <FileText size={34} className="mb-2" style={{ color: 'var(--primary)' }} />
+                  <p className="fw-semibold mb-1" style={{ color: 'var(--foreground)' }}>No documents yet</p>
+                  <p className="mb-0" style={{ color: 'var(--text-muted)' }}>Upload a document to see it here.</p>
                 </td>
               </tr>
             ) : (
@@ -226,11 +233,13 @@ export default function ViewDocumentPage() {
                 const statusStyle = getStatusStyle(document.status);
 
                 return (
-                  <tr key={document.id}>
-                    <td className="py-3 px-3 fw-semibold">{document.title || document.fileName || 'Untitled Document'}</td>
-                    <td className="py-3 px-3">{document.tags || '-'}</td>
-                    <td className="py-3 px-3">{formatDate(document.date || document.createdAt)}</td>
-                    <td className="py-3 px-3">{document.size || '-'}</td>
+                  <tr key={document.id} style={{ borderColor: 'var(--border)' }}>
+                    <td className="py-3 px-3 fw-semibold" style={{ color: 'var(--text-dark)' }}>
+                      {document.title || document.fileName || 'Untitled Document'}
+                    </td>
+                    <td className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>{document.tags || '-'}</td>
+                    <td className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>{formatDate(document.date || document.createdAt)}</td>
+                    <td className="py-3 px-3" style={{ color: 'var(--text-muted)' }}>{document.size || '-'}</td>
                     <td className="py-3 px-3">
                       <span
                         className="d-inline-flex align-items-center justify-content-center fw-semibold"
@@ -252,21 +261,24 @@ export default function ViewDocumentPage() {
                       <Dropdown align="end">
                         <Dropdown.Toggle
                           as="button"
-                          className="btn btn-sm btn-light border-0 bg-transparent p-1"
+                          className="btn btn-sm border-0 p-1"
+                          style={{ backgroundColor: 'transparent', color: 'var(--text-muted)' }}
                           disabled={deletingId === document.id}
                         >
                           <MoreVertical size={20} />
                         </Dropdown.Toggle>
-                        <Dropdown.Menu className="shadow-sm border-0">
+                        <Dropdown.Menu className="shadow-sm border-0 p-1" style={{ backgroundColor: 'var(--card)', minWidth: '140px' }}>
                           <Dropdown.Item
-                            className="d-flex align-items-center gap-2"
+                            className="d-flex align-items-center gap-2 rounded-1 mb-1"
+                            style={{ color: 'var(--foreground)', backgroundColor: 'transparent' }}
                             onClick={() => handleOpenEdit(document)}
                           >
                             <Edit2 size={16} />
                             Edit
                           </Dropdown.Item>
                           <Dropdown.Item
-                            className="d-flex align-items-center gap-2 text-danger"
+                            className="d-flex align-items-center gap-2 rounded-1"
+                            style={{ color: 'var(--destructive)', backgroundColor: 'transparent' }}
                             onClick={() => handleDelete(document.id)}
                           >
                             <Trash2 size={16} />
@@ -285,40 +297,47 @@ export default function ViewDocumentPage() {
 
       <Modal show={Boolean(editingDocument)} onHide={handleCloseEdit} centered>
         <Form onSubmit={handleUpdate}>
-          <Modal.Header closeButton={!isUpdating}>
+          <Modal.Header closeButton={!isUpdating} style={{ borderColor: 'var(--border)', backgroundColor: 'var(--card)', color: 'var(--text-dark)' }}>
             <Modal.Title>Edit document</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{ backgroundColor: 'var(--card)' }}>
             <Form.Group className="mb-3" controlId="edit-title">
-              <Form.Label>Title</Form.Label>
+              <Form.Label style={{ color: 'var(--foreground)' }}>Title</Form.Label>
               <Form.Control
                 name="title"
                 value={editForm.title}
                 onChange={handleEditChange}
                 placeholder="Enter document title"
+                style={{ backgroundColor: 'var(--input-background)', color: 'var(--foreground)', borderColor: 'var(--input-border)' }}
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="edit-tags">
-              <Form.Label>Tags</Form.Label>
+              <Form.Label style={{ color: 'var(--foreground)' }}>Tags</Form.Label>
               <Form.Control
                 name="tags"
                 value={editForm.tags}
                 onChange={handleEditChange}
                 placeholder="ai, lecture notes, final exam"
+                style={{ backgroundColor: 'var(--input-background)', color: 'var(--foreground)', borderColor: 'var(--input-border)' }}
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="edit-visibility">
-              <Form.Label>Visibility</Form.Label>
-              <Form.Select name="visibility" value={editForm.visibility} onChange={handleEditChange}>
+              <Form.Label style={{ color: 'var(--foreground)' }}>Visibility</Form.Label>
+              <Form.Select
+                name="visibility"
+                value={editForm.visibility}
+                onChange={handleEditChange}
+                style={{ backgroundColor: 'var(--input-background)', color: 'var(--foreground)', borderColor: 'var(--input-border)' }}
+              >
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </Form.Select>
             </Form.Group>
 
             <Form.Group controlId="edit-description">
-              <Form.Label>Description</Form.Label>
+              <Form.Label style={{ color: 'var(--foreground)' }}>Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={4}
@@ -326,14 +345,30 @@ export default function ViewDocumentPage() {
                 value={editForm.description}
                 onChange={handleEditChange}
                 placeholder="Add a short summary for this document"
+                style={{ backgroundColor: 'var(--input-background)', color: 'var(--foreground)', borderColor: 'var(--input-border)' }}
               />
             </Form.Group>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="outline-secondary" onClick={handleCloseEdit} disabled={isUpdating}>
+          <Modal.Footer style={{ borderColor: 'var(--border)', backgroundColor: 'var(--card)' }}>
+            <Button
+              variant=""
+              onClick={handleCloseEdit}
+              disabled={isUpdating}
+              style={{ color: 'var(--text-muted)', border: '1px solid var(--border)', borderRadius: '8px' }}
+            >
               Cancel
             </Button>
-            <Button type="submit" variant="secondary" disabled={isUpdating}>
+            <Button
+              type="submit"
+              variant=""
+              disabled={isUpdating}
+              style={{
+                background: 'var(--btn-gradient)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+              }}
+            >
               {isUpdating ? 'Saving...' : 'Save changes'}
             </Button>
           </Modal.Footer>
