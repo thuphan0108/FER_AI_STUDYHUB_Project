@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, Edit2, FileText, MoreVertical, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit2, Eye, FileText, MoreVertical, Trash2 } from 'lucide-react';
 import { Button, Dropdown, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -258,6 +258,13 @@ export default function ViewDocumentPage() {
                           <MoreVertical size={20} />
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="shadow-sm border-0">
+                          <Dropdown.Item
+                            className="d-flex align-items-center gap-2"
+                            onClick={() => navigate(`/document/${document.id}`)}
+                          >
+                            <Eye size={16} />
+                            View
+                          </Dropdown.Item>
                           <Dropdown.Item
                             className="d-flex align-items-center gap-2"
                             onClick={() => handleOpenEdit(document)}
