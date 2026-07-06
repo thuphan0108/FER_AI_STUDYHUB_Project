@@ -162,10 +162,10 @@ export default function ViewDocumentPage() {
         type="button"
         className="btn btn-link d-inline-flex align-items-center gap-2 text-decoration-none px-0"
         style={{ color: '#667085', fontWeight: 600 }}
-        onClick={() => navigate('/user/home')}
+        onClick={() => navigate(-1)}
       >
         <ArrowLeft size={18} />
-        Quay về Trang chủ
+        Back
       </button>
 
       <Button
@@ -264,7 +264,7 @@ export default function ViewDocumentPage() {
                         <Dropdown.Menu className="shadow-sm border-0">
                           <Dropdown.Item
                             className="d-flex align-items-center gap-2"
-                            onClick={() => navigate(`/document/${document.id}`)}
+                            onClick={() => navigate(`/document/${document.id}/view`)}
                           >
                             <Eye size={16} />
                             View
