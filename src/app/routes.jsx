@@ -18,12 +18,14 @@ import MyDocumentsPage from "./pages/user/MyDocumentsPage";
 import EditDocumentPage from "./pages/user/EditDocumentPage";
 import SearchDocumentPage from "./pages/user/SearchDocumentPage";
 import ChatHistoryPage from "./pages/user/ChatHistoryPage";
+import NotificationPage from "./pages/user/NotificationPage";
 import UpgradeStoragePage from "./pages/user/UpgradeStoragePage";
 import UserDocumentDetailPage from "./pages/document/UserDocumentDetailPage";
 import AdminHomePage from "./pages/admin/AdminHomePage";
 import PendingDocumentsPage from "./pages/admin/PendingDocumentsPage";
 import UserManagementPage from "./pages/admin/UserManagementPage";
 import ReportManagementPage from "./pages/admin/ReportManagementPage";
+import MyDoccumentsPage from "./pages/user/MyDocumentsPage";
 
 // Route Guards
 function ProtectedRoute({ children }) {
@@ -68,13 +70,14 @@ export const router = createBrowserRouter([
       { path: "/user/home", element: <ProtectedRoute><UserHomePage /></ProtectedRoute> },
       { path: "/admin/home", element: <AdminRoute><AdminHomePage /></AdminRoute> },
       { path: "/profile", element: <ProtectedRoute><ProfilePage /></ProtectedRoute> },
-      { path: "/my-documents", element: <ProtectedRoute><MyDocumentsPage /></ProtectedRoute> },
+      { path: "/my-documents", element: <ProtectedRoute><MyDoccumentsPage /></ProtectedRoute> },
       { path: "/upload", element: <ProtectedRoute><UploadDocumentPage /></ProtectedRoute> },
       { path: "/search", element: <SearchDocumentPage /> },
       { path: "/document/:id", element: <ProtectedRoute><UserDocumentDetailPage /></ProtectedRoute> },
       { path: "/document/:id/view", element: <ProtectedRoute><ViewDocumentPage /></ProtectedRoute> },
       { path: "/document/:id/edit", element: <ProtectedRoute><EditDocumentPage /></ProtectedRoute> },
       { path: "/chat-history", element: <ProtectedRoute><ChatHistoryPage /></ProtectedRoute> },
+      { path: "/notifications", element: <ProtectedRoute><NotificationPage /></ProtectedRoute> },
       { path: "/upgrade", element: <ProtectedRoute><UpgradeStoragePage /></ProtectedRoute> },
 
       // Admin routes

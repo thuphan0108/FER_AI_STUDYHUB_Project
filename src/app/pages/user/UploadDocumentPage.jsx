@@ -30,6 +30,13 @@ export default function UploadDocumentPage() {
   };
 
 
+  const handleVisibilityToggle = (event) => {
+    setFormData((current) => ({
+      ...current,
+      visibility: event.target.checked ? 'public' : 'private',
+    }));
+  };
+
   const handleFileChange = (event) => {
     const file = event.target.files?.[0]; 
     //Dấu "?." tránh lỗi khi không có file
@@ -181,14 +188,6 @@ export default function UploadDocumentPage() {
                     </div>
 
                     <div className="col-12">
-                      <label className="form-label fw-semibold text-dark" htmlFor="visibility">Visibility</label>
-                      <select id="visibility" name="visibility" className="form-select" value={formData.visibility} onChange={handleChange}>
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
-                      </select>
-                    </div>
-
-                    <div className="col-12">
                       <label className="form-label fw-semibold text-dark" htmlFor="tags">Tags</label>
                       <input
                         id="tags"
@@ -212,6 +211,37 @@ export default function UploadDocumentPage() {
                         value={formData.description}
                         onChange={handleChange}
                       />
+                    </div>
+
+                    <div className="col-12">
+                      <label
+                        htmlFor="visibility"
+                        className="d-flex align-items-center justify-content-between gap-3 bg-light p-3 mb-0"
+                        style={{ borderRadius: '10px', cursor: 'pointer' }}
+                      >
+                        <div>
+                          <p className="fw-bold text-dark mb-1">Make this document public</p>
+                          <p className="text-muted mb-0">Public documents will be reviewed by admins before appearing in search</p>
+                        </div>
+                        <div className="form-check form-switch m-0 flex-shrink-0">
+                          <input
+                            id="visibility"
+                            name="visibility"
+                            type="checkbox"
+                            className="form-check-input"
+                            role="switch"
+                            checked={formData.visibility === 'public'}
+                            onChange={handleVisibilityToggle}
+                            style={{
+                              width: '40px',
+                              height: '22px',
+                              cursor: 'pointer',
+                              backgroundColor: formData.visibility === 'public' ? '#FDB36B' : undefined,
+                              borderColor: formData.visibility === 'public' ? '#FDB36B' : undefined,
+                            }}
+                          />
+                        </div>
+                      </label>
                     </div>
                   </div>
 
