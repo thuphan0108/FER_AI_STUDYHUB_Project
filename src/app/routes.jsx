@@ -25,7 +25,6 @@ import AdminHomePage from "./pages/admin/AdminHomePage";
 import PendingDocumentsPage from "./pages/admin/PendingDocumentsPage";
 import UserManagementPage from "./pages/admin/UserManagementPage";
 import ReportManagementPage from "./pages/admin/ReportManagementPage";
-import MyDoccumentsPage from "./pages/user/MyDocumentsPage";
 
 // Route Guards
 function ProtectedRoute({ children }) {
@@ -70,7 +69,7 @@ export const router = createBrowserRouter([
       { path: "/user/home", element: <ProtectedRoute><UserHomePage /></ProtectedRoute> },
       { path: "/admin/home", element: <AdminRoute><AdminHomePage /></AdminRoute> },
       { path: "/profile", element: <ProtectedRoute><ProfilePage /></ProtectedRoute> },
-      { path: "/my-documents", element: <ProtectedRoute><MyDoccumentsPage /></ProtectedRoute> },
+      { path: "/my-documents", element: <ProtectedRoute><MyDocumentsPage /></ProtectedRoute> },
       { path: "/upload", element: <ProtectedRoute><UploadDocumentPage /></ProtectedRoute> },
       { path: "/search", element: <SearchDocumentPage /> },
       { path: "/document/:id", element: <ProtectedRoute><UserDocumentDetailPage /></ProtectedRoute> },

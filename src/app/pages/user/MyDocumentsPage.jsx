@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, Edit2, Eye, FileText, MoreVertical, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit2, Eye, FileText, MoreVertical, Plus, Trash2 , Edit3} from 'lucide-react';
 import { Button, Dropdown, Form, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -41,7 +41,7 @@ function getStatusStyle(status) {
   };
 }
 
-export default function ViewDocumentPage() {
+export default function MyDocumentsPage() {
   const navigate = useNavigate();
   const [documents, setDocuments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -191,49 +191,6 @@ export default function ViewDocumentPage() {
         </p>
       </div>
 
-<<<<<<< HEAD
-  {/* Documents list */ }
-  <div className="card shadow-sm" style={{ borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--card)' }}>
-    {myDocs.length === 0 ? (
-      <div className="text-center py-5">
-        <FileText className="mx-auto mb-3" size={48} style={{ color: 'var(--text-muted)' }} />
-        <p className="fw-medium mb-1" style={{ color: 'var(--text-muted)' }}>No documents found</p>
-        <p className="small mb-0" style={{ color: 'var(--text-muted)' }}>Upload your first document to get started</p>
-      </div>
-    ) : (
-      <div className="table-responsive px-0">
-        <table className="table align-middle mb-0" style={{ color: 'var(--foreground)' }}>
-          <thead>
-            <tr style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-hover)' }}>
-              <th className="ps-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Subject</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Uploaded</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Status</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reason</th>
-              <th className="text-end pe-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {myDocs.map((doc) => (
-              <tr
-                key={doc.id}
-                className="align-middle"
-                style={{
-                  borderColor: 'var(--border)',
-                  transition: 'background-color 0.15s ease',
-                  cursor: 'default',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-hover)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}
-              >
-                <td className="ps-4 py-3">
-                  <div className="d-flex align-items-center gap-2">
-                    <FileText className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--primary)' }} />
-                    <span className="fw-medium" style={{ color: 'var(--text-dark)', fontSize: '14px' }}>{doc.title}</span>
-                  </div>
-                </td>
-                <td className="py-3">
-=======
       <div
                     className="table-responsive bg-white"
                     style={{
@@ -279,7 +236,6 @@ export default function ViewDocumentPage() {
                                 <td className="py-3 px-3">{formatDate(document.date || document.createdAt)}</td>
                                 <td className="py-3 px-3">{document.size || '-'}</td>
                                 <td className="py-3 px-3">
->>>>>>> UploadPage_Quyt
                                   <span
                                     className="d-inline-flex align-items-center justify-content-center fw-semibold"
                                     style={{
@@ -330,7 +286,7 @@ export default function ViewDocumentPage() {
                                     </Dropdown.Menu>
                                   </Dropdown>
                                 </td>
-                                <td className="text-end pe-4 py-3">
+                                {/* <td className="text-end pe-4 py-3">
                                   <button
                                     onClick={() => navigate(`/document/${doc.id}/edit`)}
                                     className="btn btn-sm d-inline-flex align-items-center gap-1 fw-medium border-0"
@@ -345,7 +301,7 @@ export default function ViewDocumentPage() {
                                   >
                                     <Edit3 className="h-3 w-3" /> Edit
                                   </button>
-                                </td>
+                                </td> */}
                               </tr>
                             );
                           })
