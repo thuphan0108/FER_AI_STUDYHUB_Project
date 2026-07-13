@@ -88,7 +88,7 @@ export function Navbar() {
                     </Link>
 
                     {/* DROPDOWN CHỌN MÔN HỌC */}
-                    <Dropdown>
+                    {/* <Dropdown>
                         <Dropdown.Toggle as="button" id="dropdown-subjects" className="btn d-flex align-items-center gap-1 border-0 bg-transparent px-2" style={{ fontSize: '14px', boxShadow: 'none', color: 'var(--foreground)' }}>
                             Subject tags <ChevronDown className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
                         </Dropdown.Toggle>
@@ -99,7 +99,7 @@ export function Navbar() {
                                 </Dropdown.Item>
                             ))}
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                 </div>
 
                 {/* CHÍNH GIỮA: THANH TÌM KIẾM TOÀN CỤC */}
