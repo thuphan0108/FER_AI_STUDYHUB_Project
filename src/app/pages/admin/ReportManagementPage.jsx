@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
-import { Link } from 'react-router';
+import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import { ArrowLeft, Search, FileText, Flag, CheckCircle, XCircle, AlertTriangle, Eye } from 'lucide-react';
+import { ArrowLeft, Search, FileText, Flag, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { useApp } from '../../context/AppContext.jsx';
 
 const tabs = [
@@ -21,6 +21,7 @@ const reasonColors = {
 
 export default function ReportManagementPage() {
   const { reports, documents, updateReportStatus, updateDocumentStatus } = useApp();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState('all');
   const [detailModal, setDetailModal] = useState(null);
@@ -39,6 +40,30 @@ export default function ReportManagementPage() {
     }
     return list;
   }, [reports, filterTab, searchQuery]);
+
+  const groupedReports = useMemo(() => {
+    const map = new Map();
+    filteredReports.forEach((report) => {
+      if (!map.has(report.documentId)) {
+        const doc = documents.find((d) => d.id === report.documentId);
+        map.set(report.documentId, {
+          documentId: report.documentId,
+          documentTitle: report.documentTitle,
+          uploader: doc?.author || doc?.uploadedBy || 'Unknown',
+          reports: [],
+          count: 0,
+          latestDate: '',
+        });
+      }
+      const group = map.get(report.documentId);
+      group.reports.push(report);
+      group.count += 1;
+      if (report.reportedAt > group.latestDate) {
+        group.latestDate = report.reportedAt;
+      }
+    });
+    return Array.from(map.values());
+  }, [filteredReports, documents]);
 
   const stats = useMemo(() => ({
     total: reports.length,
@@ -108,49 +133,76 @@ export default function ReportManagementPage() {
     }
   };
 
+  // Count unique reported documents
+  const uniqueReportedDocs = useMemo(() => {
+    const ids = new Set(reports.map((r) => r.documentId));
+    return ids.size;
+  }, [reports]);
+
   return (
     <div className="container py-4 text-start" style={{ maxWidth: '1100px' }}>
-      <Link
-        to="/admin/home"
-        className="d-inline-flex align-items-center gap-2 text-decoration-none mb-4"
+      <button
+        onClick={() => navigate('/admin/home')}
+        className="btn border-0 p-0 d-inline-flex align-items-center gap-1 mb-4"
         style={{ fontSize: '14px', color: 'var(--text-muted)' }}
       >
         <ArrowLeft className="h-4 w-4" />
         <span className="fw-medium">Back to Dashboard</span>
-      </Link>
+      </button>
 
       <div className="mb-4">
         <h1 className="fw-bold mb-1" style={{ fontSize: '28px', color: 'var(--text-dark)' }}>Report Management</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Review and handle violation reports from users</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Review and handle policy violations or copyright complaints against study materials.</p>
       </div>
 
       {/* Stats cards */}
       <div className="row g-3 mb-4">
-        {[
-          { label: 'Total', value: stats.total, color: 'var(--primary)' },
-          { label: 'Pending', value: stats.pending, color: 'var(--text-muted)' },
-          { label: 'Resolved', value: stats.resolved, color: '#22c55e' },
-          { label: 'Dismissed', value: stats.dismissed, color: 'var(--text-muted)' },
-        ].map((stat) => (
-          <div className="col-6 col-md-3" key={stat.label}>
-            <div
-              className="card shadow-sm border-0 h-100"
-              style={{ borderRadius: '0.75rem', backgroundColor: 'var(--card)' }}
-            >
-              <div className="card-body p-3 text-center">
-                <p className="mb-1 fw-medium" style={{ color: 'var(--text-muted)', fontSize: '12px' }}>{stat.label}</p>
-                <h3 className="fw-bold mb-0" style={{ color: stat.color, fontSize: '24px' }}>{stat.value}</h3>
+        <div className="col-6 col-md-6">
+          <div className="card border-0 shadow-sm h-100" style={{ borderRadius: '12px', backgroundColor: 'var(--card)' }}>
+            <div className="card-body p-3">
+              <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: '#22c55e12' }}>
+                <FileText size={18} style={{ color: '#22c55e' }} />
               </div>
+              <p className="fw-bold mb-0" style={{ color: 'var(--text-dark)', fontSize: '24px' }}>{uniqueReportedDocs}</p>
+              <p className="mb-0 fw-medium" style={{ color: 'var(--text-muted)', fontSize: '12px' }}>Reported Documents</p>
             </div>
           </div>
-        ))}
+        </div>
+        <div className="col-6 col-md-6">
+          <div className="card border-0 shadow-sm h-100" style={{ borderRadius: '12px', backgroundColor: 'var(--card)' }}>
+            <div className="card-body p-3">
+              <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: '#ef444412' }}>
+                <AlertTriangle size={18} style={{ color: '#ef4444' }} />
+              </div>
+              <p className="fw-bold mb-0" style={{ color: 'var(--text-dark)', fontSize: '24px' }}>{stats.pending}</p>
+              <p className="mb-0 fw-medium" style={{ color: 'var(--text-muted)', fontSize: '12px' }}>Total Pending Complaints</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Main card */}
+      {/* Full-width search bar */}
+      <div className="mb-3">
+        <div className="input-group" style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border)' }}>
+          <span className="input-group-text border-0 d-flex align-items-center px-3" style={{ backgroundColor: 'var(--input-background)' }}>
+            <Search size={16} style={{ color: 'var(--text-muted)' }} />
+          </span>
+          <input
+            type="search"
+            placeholder="Search reported files by title, uploader name..."
+            className="form-control border-0 py-2"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ boxShadow: 'none', fontSize: '13px', backgroundColor: 'var(--input-background)', color: 'var(--foreground)' }}
+          />
+        </div>
+      </div>
+
+      {/* Main card with tabs + table */}
       <div className="card shadow-sm" style={{ borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--card)' }}>
         <div className="card-body p-0">
-          {/* Filters & Search */}
-          <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 p-4 pb-0">
+          {/* Filter tabs */}
+          <div className="d-flex px-4 pt-4 pb-0">
             <div className="d-flex gap-1 flex-wrap" style={{ borderBottom: '2px solid var(--border)', paddingBottom: '0.5rem' }}>
               {tabs.map((tab) => (
                 <button
@@ -170,36 +222,10 @@ export default function ReportManagementPage() {
                 </button>
               ))}
             </div>
-
-            <div
-              className="input-group input-group-sm"
-              style={{
-                maxWidth: '280px',
-                borderRadius: '8px',
-                overflow: 'hidden',
-                border: '1px solid var(--input-border)',
-                backgroundColor: 'var(--input-background)',
-              }}
-            >
-              <input
-                type="search"
-                placeholder="Search reports..."
-                className="form-control border-0 ps-3"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ boxShadow: 'none', fontSize: '13px', backgroundColor: 'transparent', color: 'var(--foreground)' }}
-              />
-              <span
-                className="input-group-text border-0 d-flex align-items-center px-3"
-                style={{ backgroundColor: 'transparent' }}
-              >
-                <Search className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
-              </span>
-            </div>
           </div>
 
           {/* Table */}
-          {filteredReports.length === 0 ? (
+          {groupedReports.length === 0 ? (
             <div className="text-center py-5">
               <Flag className="mx-auto mb-3" size={48} style={{ color: 'var(--text-muted)' }} />
               <p className="fw-medium" style={{ color: 'var(--text-muted)' }}>No reports found</p>
@@ -208,114 +234,68 @@ export default function ReportManagementPage() {
             <div className="table-responsive px-0">
               <table className="table align-middle mb-0" style={{ color: 'var(--foreground)' }}>
                 <thead>
-                  <tr style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-hover)' }}>
-                    <th className="ps-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Document</th>
-                    <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reported By</th>
-                    <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reason</th>
-                    <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Date</th>
-                    <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Status</th>
-                    <th className="text-end pe-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Actions</th>
+                  <tr style={{ borderColor: 'var(--border)' }}>
+                    <th className="ps-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Document Details</th>
+                    <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Uploaded By</th>
+                    <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Active Complaints</th>
+                    <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Latest Flagged Date</th>
+                    <th className="text-end pe-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredReports.map((report) => (
+                  {groupedReports.map((group) => (
                     <tr
-                      key={report.id}
+                      key={group.documentId}
                       className="align-middle"
                       style={{
                         borderColor: 'var(--border)',
                         transition: 'background-color 0.15s ease',
                         cursor: 'default',
+                        height: '75px',
                       }}
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-hover)'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}
                     >
-                      <td className="ps-4 py-3">
-                        <button
-                          onClick={() => setDetailModal(report)}
-                          className="btn btn-sm p-0 border-0 text-start d-flex align-items-center gap-2"
-                          style={{ color: 'var(--text-dark)', fontSize: '14px' }}
-                        >
-                          <FileText className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--primary)' }} />
-                          <span className="fw-medium text-decoration-underline" style={{ textUnderlineOffset: '2px', textDecorationColor: 'var(--border)' }}>
-                            {report.documentTitle}
-                          </span>
-                        </button>
+                      <td className="ps-4 py-3" style={{ width: '40%' }}>
+                        <div className="fw-semibold" style={{ color: 'var(--text-dark)', fontSize: '14px', lineHeight: '1.4' }}>
+                          {group.documentTitle}
+                        </div>
+                        <div style={{ color: 'var(--text-muted)', fontSize: '12px', lineHeight: '1.4' }}>
+                          ID: {group.documentId}
+                        </div>
                       </td>
-                      <td className="py-3" style={{ color: 'var(--foreground)', fontSize: '14px' }}>{report.reportedBy}</td>
-                      <td className="py-3">
+                      <td className="py-3" style={{ color: 'var(--foreground)', fontSize: '14px', width: '15%' }}>
+                        {group.uploader}
+                      </td>
+                      <td className="py-3" style={{ width: '15%' }}>
                         <span
                           className="badge rounded-pill fw-medium px-3 py-1"
                           style={{
-                            fontSize: '11px',
-                            backgroundColor: reasonColors[report.reason] || 'var(--surface-hover)',
-                            color: '#fff',
+                            fontSize: '12px',
+                            backgroundColor: '#fce4e4',
+                            color: '#d32f2f',
                             border: 'none',
                           }}
                         >
-                          {report.reason}
+                          {group.count} {group.count === 1 ? 'report' : 'reports'}
                         </span>
                       </td>
-                      <td className="py-3" style={{ color: 'var(--text-muted)', fontSize: '13px' }}>{report.reportedAt}</td>
-                      <td className="py-3">{getStatusBadge(report.status)}</td>
-                      <td className="text-end pe-4 py-3">
-                        {report.status === 'pending' ? (
-                          <div className="d-flex gap-1 justify-content-end">
-                            <button
-                              onClick={() => setConfirmAction({ reportId: report.id, action: 'dismiss' })}
-                              className="btn btn-sm fw-medium border-0"
-                              style={{
-                                color: 'var(--text-muted)',
-                                backgroundColor: 'var(--surface-hover)',
-                                borderRadius: '6px',
-                                padding: '0.3rem 0.7rem',
-                                fontSize: '11px',
-                                border: '1px solid var(--border)',
-                              }}
-                            >
-                              Dismiss
-                            </button>
-                            <button
-                              onClick={() => setConfirmAction({ reportId: report.id, action: 'warn' })}
-                              className="btn btn-sm fw-medium border-0"
-                              style={{
-                                color: '#ea580c',
-                                backgroundColor: 'var(--surface-hover)',
-                                borderRadius: '6px',
-                                padding: '0.3rem 0.7rem',
-                                fontSize: '11px',
-                                border: '1px solid #ea580c',
-                              }}
-                            >
-                              Warn
-                            </button>
-                            <button
-                              onClick={() => setConfirmAction({ reportId: report.id, action: 'remove' })}
-                              className="btn btn-sm fw-medium border-0"
-                              style={{
-                                color: 'var(--destructive)',
-                                backgroundColor: 'var(--surface-hover)',
-                                borderRadius: '6px',
-                                padding: '0.3rem 0.7rem',
-                                fontSize: '11px',
-                                border: '1px solid var(--destructive)',
-                              }}
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        ) : report.status === 'resolved' ? (
-                          <span className="small fw-medium" style={{ color: '#22c55e', fontSize: '12px' }}>
-                            {getActionLabel(report.action)}
-                            {report.resolvedAt && (
-                              <span className="d-block" style={{ color: 'var(--text-muted)', fontSize: '11px' }}>
-                                {report.resolvedAt}
-                              </span>
-                            )}
-                          </span>
-                        ) : (
-                          <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>—</span>
-                        )}
+                      <td className="py-3" style={{ color: 'var(--text-muted)', fontSize: '14px', width: '15%' }}>
+                        {group.latestDate}
+                      </td>
+                      <td className="text-end pe-4 py-3" style={{ width: '15%' }}>
+                        <button
+                          onClick={() => setDetailModal(group.reports[0])}
+                          className="btn btn-sm fw-semibold text-white border-0"
+                          style={{
+                            backgroundColor: 'var(--primary)',
+                            borderRadius: '8px',
+                            padding: '0.35rem 1.2rem',
+                            fontSize: '13px',
+                          }}
+                        >
+                          View Complaints
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -327,7 +307,9 @@ export default function ReportManagementPage() {
           {/* Footer */}
           <div className="d-flex justify-content-between align-items-center px-4 py-3" style={{ borderTop: '1px solid var(--border)' }}>
             <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
-              Showing {filteredReports.length} of {reports.length} reports
+              Showing {groupedReports.length} of {reports.length} {
+                reports.length === 1 ? 'report' : 'reports'
+              }
             </span>
             <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
               <span className="fw-medium" style={{ color: 'var(--primary)' }}>{stats.pending}</span> pending
@@ -408,21 +390,61 @@ export default function ReportManagementPage() {
               </div>
             </div>
 
-            <div className="d-flex justify-content-end mt-4">
-              <button
-                onClick={() => setDetailModal(null)}
-                className="btn btn-sm fw-semibold px-4 py-2"
-                style={{
-                  color: 'var(--text-muted)',
-                  backgroundColor: 'transparent',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                }}
-              >
-                Close
-              </button>
-            </div>
+            {detailModal.status === 'pending' ? (
+              <div className="d-flex gap-2 justify-content-end mt-4">
+                <button
+                  onClick={() => { const m = detailModal; setDetailModal(null); setConfirmAction({ reportId: m.id, action: 'dismiss' }); }}
+                  className="btn btn-sm fw-medium border-0 px-3 py-2"
+                  style={{
+                    color: 'var(--text-muted)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                  }}
+                >
+                  Dismiss
+                </button>
+                <button
+                  onClick={() => { const m = detailModal; setDetailModal(null); setConfirmAction({ reportId: m.id, action: 'warn' }); }}
+                  className="btn btn-sm fw-medium border-0 px-3 py-2"
+                  style={{
+                    color: '#ea580c',
+                    border: '1px solid #ea580c',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                  }}
+                >
+                  Warn
+                </button>
+                <button
+                  onClick={() => { const m = detailModal; setDetailModal(null); setConfirmAction({ reportId: m.id, action: 'remove' }); }}
+                  className="btn btn-sm fw-semibold text-white border-0 px-4 py-2"
+                  style={{
+                    backgroundColor: 'var(--destructive)',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <div className="d-flex justify-content-end mt-4">
+                <button
+                  onClick={() => setDetailModal(null)}
+                  className="btn btn-sm fw-semibold px-4 py-2"
+                  style={{
+                    color: 'var(--text-muted)',
+                    backgroundColor: 'transparent',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
