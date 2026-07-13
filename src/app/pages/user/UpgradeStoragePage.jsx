@@ -91,7 +91,7 @@ export default function UpgradeStoragePage() {
                     padding: 6px 8px;
                 }
                 .feature-row:hover {
-                    background: rgba(253, 143, 82, 0.06);
+                    background: var(--surface-hover);
                 }
             `}</style>
 
@@ -123,10 +123,10 @@ export default function UpgradeStoragePage() {
                     >
                         <Crown size={28} color="white" />
                     </div>
-                    <h1 className="fw-bold text-dark mb-1" style={{ fontSize: '30px' }}>
+                    <h1 className="fw-bold mb-1" style={{ color: 'var(--text-dark)', fontSize: '30px' }}>
                         Upgrade Your Storage
                     </h1>
-                    <p className="text-muted" style={{ fontSize: '15px' }}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>
                         Get more space and unlock powerful premium features
                     </p>
                 </div>
@@ -136,14 +136,14 @@ export default function UpgradeStoragePage() {
                     className="card shadow-sm border-0 mb-5"
                     style={{
                         borderRadius: '1rem',
-                        border: `1px solid ${isWarning ? 'rgba(239,68,68,0.25)' : 'rgba(253,143,82,0.2)'}`,
-                        background: isWarning ? '#FFF5F5' : '#FFFAF6'
+                        border: `1px solid ${isWarning ? 'rgba(239,68,68,0.25)' : 'var(--border)'}`,
+                        background: 'var(--card)'
                     }}
                 >
                     <div className="card-body p-4">
                         <div className="d-flex align-items-center gap-2 mb-3">
                             <HardDrive size={18} style={{ color: '#FD8F52' }} />
-                            <h5 className="fw-bold text-dark mb-0" style={{ fontSize: '16px' }}>
+                            <h5 className="fw-bold mb-0" style={{ color: 'var(--text-dark)', fontSize: '16px' }}>
                                 Current Storage Usage
                             </h5>
                             {isPremium && (
@@ -159,7 +159,7 @@ export default function UpgradeStoragePage() {
                             )}
                         </div>
                         <div className="d-flex justify-content-between align-items-center mb-2">
-                            <span className="text-muted" style={{ fontSize: '13px' }}>
+                            <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
                                 {formatBytes(storageUsed)} used of {formatBytes(storageLimit)}
                             </span>
                             <span
@@ -172,7 +172,7 @@ export default function UpgradeStoragePage() {
                                 {storagePercent.toFixed(1)}%
                             </span>
                         </div>
-                        <div className="progress" style={{ height: '10px', borderRadius: '99px', background: '#F3F4F6' }}>
+                        <div className="progress" style={{ height: '10px', borderRadius: '99px', background: 'var(--surface-hover)' }}>
                             <div
                                 className="progress-bar"
                                 role="progressbar"
@@ -201,19 +201,19 @@ export default function UpgradeStoragePage() {
                             className="card border-0 h-100 plan-card"
                             style={{
                                 borderRadius: '1.25rem',
-                                border: !isPremium ? '2px solid rgba(253,143,82,0.4)' : '1px solid #E5E7EB',
+                                border: !isPremium ? '2px solid rgba(253,143,82,0.4)' : '1px solid var(--border)',
                                 boxShadow: !isPremium ? '0 4px 20px rgba(253,143,82,0.15)' : '0 2px 12px rgba(0,0,0,0.06)'
                             }}
                         >
                             <div className="card-body p-4 d-flex flex-column">
                                 {/* Plan header */}
                                 <div className="d-flex align-items-center justify-content-between mb-1">
-                                    <h3 className="fw-bold text-dark mb-0" style={{ fontSize: '20px' }}>Free Plan</h3>
+                                    <h3 className="fw-bold mb-0" style={{ color: 'var(--text-dark)', fontSize: '20px' }}>Free Plan</h3>
                                     {!isPremium && (
                                         <span
                                             className="badge"
                                             style={{
-                                                background: '#F3F4F6', color: '#6B7280',
+                                                background: 'var(--surface-hover)', color: 'var(--text-muted)',
                                                 fontSize: '11px', borderRadius: '20px', padding: '4px 10px'
                                             }}
                                         >
@@ -221,12 +221,12 @@ export default function UpgradeStoragePage() {
                                         </span>
                                     )}
                                 </div>
-                                <p className="text-muted mb-3" style={{ fontSize: '13px' }}>Perfect for casual learners</p>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>Perfect for casual learners</p>
 
                                 {/* Price */}
                                 <div className="mb-4">
-                                    <span className="fw-bold text-dark" style={{ fontSize: '40px', lineHeight: 1 }}>$0</span>
-                                    <span className="text-muted ms-1" style={{ fontSize: '14px' }}>/month</span>
+                                    <span className="fw-bold" style={{ color: 'var(--text-dark)', fontSize: '40px', lineHeight: 1 }}>$0</span>
+                                    <span style={{ color: 'var(--text-muted)', fontSize: '14px' }}>/month</span>
                                 </div>
 
                                 {/* Features */}
@@ -237,19 +237,24 @@ export default function UpgradeStoragePage() {
                                                 className="d-flex align-items-center justify-content-center flex-shrink-0"
                                                 style={{
                                                     width: '22px', height: '22px', borderRadius: '50%',
-                                                    background: 'rgba(107,114,128,0.1)'
+                                                    background: 'var(--surface-hover)'
                                                 }}
                                             >
-                                                <f.icon size={12} style={{ color: '#6B7280' }} />
+                                                <f.icon size={12} style={{ color: 'var(--text-muted)' }} />
                                             </div>
-                                            <span style={{ fontSize: '13.5px', color: '#374151' }}>{f.text}</span>
+                                            <span style={{ fontSize: '13.5px', color: 'var(--foreground)' }}>{f.text}</span>
                                         </li>
                                     ))}
                                 </ul>
 
                                 <button
-                                    className="btn btn-outline-secondary w-100 fw-semibold py-2"
-                                    style={{ borderRadius: '10px', fontSize: '14px' }}
+                                    className="btn w-100 fw-semibold py-2"
+                                    style={{
+                                        borderRadius: '10px', fontSize: '14px',
+                                        color: 'var(--text-muted)',
+                                        border: '1px solid var(--border)',
+                                        background: 'transparent'
+                                    }}
                                     disabled={!isPremium}
                                     onClick={handleDowngrade}
                                 >
@@ -268,7 +273,8 @@ export default function UpgradeStoragePage() {
                                 border: '2px solid #FD8F52',
                                 boxShadow: isPremium
                                     ? '0 8px 32px rgba(199,56,102,0.25)'
-                                    : '0 4px 20px rgba(253,143,82,0.2)'
+                                    : '0 4px 20px rgba(253,143,82,0.2)',
+                                background: 'var(--card)'
                             }}
                         >
                             {/* Floating badge */}
@@ -296,7 +302,6 @@ export default function UpgradeStoragePage() {
                             <div
                                 className="card-body p-4 d-flex flex-column"
                                 style={{
-                                    background: 'linear-gradient(160deg, #FFFAF7 0%, #FFF5F0 100%)',
                                     borderRadius: '1.1rem'
                                 }}
                             >
@@ -304,7 +309,7 @@ export default function UpgradeStoragePage() {
                                 <div className="d-flex align-items-center justify-content-between mb-1 mt-2">
                                     <h3
                                         className="fw-bold mb-0 d-flex align-items-center gap-2"
-                                        style={{ fontSize: '20px', color: '#C73866' }}
+                                        style={{ fontSize: '20px', color: 'var(--text-dark)' }}
                                     >
                                         <Crown size={18} style={{ color: '#FD8F52' }} />
                                         Premium Plan
@@ -321,7 +326,7 @@ export default function UpgradeStoragePage() {
                                         </span>
                                     )}
                                 </div>
-                                <p className="text-muted mb-3" style={{ fontSize: '13px' }}>For power users & professionals</p>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>For power users & professionals</p>
 
                                 {/* Price */}
                                 <div className="mb-4">
@@ -335,7 +340,7 @@ export default function UpgradeStoragePage() {
                                     >
                                         $4.99
                                     </span>
-                                    <span className="text-muted ms-1" style={{ fontSize: '14px' }}>/month</span>
+                                    <span style={{ color: 'var(--text-muted)', fontSize: '14px' }}>/month</span>
                                 </div>
 
                                 {/* Features */}
@@ -351,7 +356,7 @@ export default function UpgradeStoragePage() {
                                             >
                                                 <f.icon size={12} style={{ color: '#FD8F52' }} />
                                             </div>
-                                            <span style={{ fontSize: '13.5px', color: '#374151' }}>{f.text}</span>
+                                            <span style={{ fontSize: '13.5px', color: 'var(--foreground)' }}>{f.text}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -378,11 +383,11 @@ export default function UpgradeStoragePage() {
                     className="mt-5 p-4 text-center"
                     style={{
                         borderRadius: '1rem',
-                        background: 'linear-gradient(135deg, rgba(199,56,102,0.05), rgba(253,143,82,0.05))',
-                        border: '1px solid rgba(253,143,82,0.15)'
+                        background: 'var(--surface-hover)',
+                        border: '1px solid var(--border)'
                     }}
                 >
-                    <p className="mb-0 text-muted" style={{ fontSize: '13px' }}>
+                    <p className="mb-0" style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
                         🔒 Secure payment &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; 7-day money-back guarantee
                     </p>
                 </div>
