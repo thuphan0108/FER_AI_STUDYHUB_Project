@@ -69,15 +69,11 @@ export function Navbar() {
         }
     };
 
-    const subjects = [
-        'Technology', 'Science', 'Mathematics', 'Business', 'Java Programming', 'Python Programming', 'Data Science', 'Machine Learning', 'Artificial Intelligence', 'Web Development', 'Mobile Development', 'Cloud Computing', 'Cybersecurity', 'Digital Marketing', 'Graphic Design', 'Project Management'
-    ];
-
     return (
         <header className="sticky-header" style={{ backgroundColor: 'var(--navbar-bg)' }}>
             <div className="px-4 py-2 d-flex align-items-center justify-content-between w-100 gap-3">
 
-                {/* BÊN TRÁI: LOGO & DROPDOWN MÔN HỌC */}
+                {/* BÊN TRÁI: LOGO */}
                 <div className="d-flex align-items-center gap-3">
                     <Link to={homeLink} className="d-flex align-items-center gap-2 text-decoration-none">
 
@@ -92,20 +88,6 @@ export function Navbar() {
                             <p className="mb-0" style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Document Management</p>
                         </div>
                     </Link>
-
-                    {/* DROPDOWN CHỌN MÔN HỌC */}
-                    <Dropdown>
-                        <Dropdown.Toggle as="button" id="dropdown-subjects" className="btn d-flex align-items-center gap-1 border-0 bg-transparent px-2" style={{ fontSize: '14px', boxShadow: 'none', color: 'var(--foreground)' }}>
-                            Subject tags <ChevronDown className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className="shadow border-0 mt-2" style={{ maxHeight: '300px', overflowY: 'auto', backgroundColor: 'var(--card)', color: 'var(--card-foreground)' }}>
-                            {subjects.map((sub) => (
-                                <Dropdown.Item key={sub} onClick={() => navigate(`/search?subject=${encodeURIComponent(sub)}`)} style={{ fontSize: '14px', color: 'var(--card-foreground)' }}>
-                                    {sub}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown.Menu>
-                    </Dropdown>
                 </div>
 
                 {/* CHÍNH GIỮA: THANH TÌM KIẾM TOÀN CỤC */}
