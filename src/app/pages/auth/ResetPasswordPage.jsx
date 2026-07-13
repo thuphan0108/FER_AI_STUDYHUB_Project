@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Card, Form, Button, FloatingLabel } from 'react-bootstrap';
+import { Card, Form, Button } from 'react-bootstrap';
 import { toast } from 'sonner';
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
@@ -40,41 +40,53 @@ export default function ResetPasswordPage() {
         </div>
 
         <Form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
-          <FloatingLabel controlId="password" label="New Password" className="text-muted">
-            <Form.Control
-              type={showPwd ? 'text' : 'password'}
-              placeholder="New password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="rounded-3 border-light-subtle shadow-none pe-5"
-              required
-            />
-            <span
-              onClick={() => setShowPwd(!showPwd)}
-              className="position-absolute top-50 end-0 translate-middle-y me-3"
-              style={{ cursor: 'pointer', color: 'var(--text-muted)', zIndex: 5 }}
-            >
-              {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
-          </FloatingLabel>
+          <Form.Group controlId="password">
+            <Form.Label className="fw-medium mb-1" style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+              New Password
+            </Form.Label>
+            <div className="position-relative">
+              <Form.Control
+                type={showPwd ? 'text' : 'password'}
+                placeholder="New password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="rounded-3 border-light-subtle shadow-none"
+                style={{ paddingRight: '40px' }}
+                required
+              />
+              <span
+                onClick={() => setShowPwd(!showPwd)}
+                className="position-absolute top-50 end-0 me-2"
+                style={{ transform: 'translateY(-50%)', cursor: 'pointer', color: 'var(--text-muted)', zIndex: 5, lineHeight: 1 }}
+              >
+                {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
+              </span>
+            </div>
+          </Form.Group>
 
-          <FloatingLabel controlId="confirmPassword" label="Confirm Password" className="text-muted">
-            <Form.Control
-              type={showConfirm ? 'text' : 'password'}
-              placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="rounded-3 border-light-subtle shadow-none pe-5"
-              required
-            />
-            <span
-              onClick={() => setShowConfirm(!showConfirm)}
-              className="position-absolute top-50 end-0 translate-middle-y me-3"
-              style={{ cursor: 'pointer', color: 'var(--text-muted)', zIndex: 5 }}
-            >
-              {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-            </span>
-          </FloatingLabel>
+          <Form.Group controlId="confirmPassword">
+            <Form.Label className="fw-medium mb-1" style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+              Confirm Password
+            </Form.Label>
+            <div className="position-relative">
+              <Form.Control
+                type={showConfirm ? 'text' : 'password'}
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="rounded-3 border-light-subtle shadow-none"
+                style={{ paddingRight: '40px' }}
+                required
+              />
+              <span
+                onClick={() => setShowConfirm(!showConfirm)}
+                className="position-absolute top-50 end-0 me-2"
+                style={{ transform: 'translateY(-50%)', cursor: 'pointer', color: 'var(--text-muted)', zIndex: 5, lineHeight: 1 }}
+              >
+                {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+              </span>
+            </div>
+          </Form.Group>
 
           <Button
             type="submit"

@@ -47,6 +47,12 @@ export function Navbar() {
         };
     }, [loadNotifications]);
 
+    const handleToggleMode = () => {
+        const wasAdmin = isActuallyAdminView;
+        toggleAdminMode();
+        navigate(wasAdmin ? '/user/home' : '/admin/home');
+    };
+
     const handleLogout = () => {
         logout();
         navigate('/auth/login');

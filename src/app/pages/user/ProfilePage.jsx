@@ -103,7 +103,7 @@ export default function ProfilePage() {
                                         className="form-control"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        required
+                                        placeholder="Your full name (optional)"
                                     />
                                 </div>
 

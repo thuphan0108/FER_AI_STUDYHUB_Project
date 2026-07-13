@@ -191,225 +191,165 @@ export default function ViewDocumentPage() {
         </p>
       </div>
 
-<<<<<<< HEAD
-  {/* Documents list */ }
-  <div className="card shadow-sm" style={{ borderRadius: '1rem', border: '1px solid var(--border)', backgroundColor: 'var(--card)' }}>
-    {myDocs.length === 0 ? (
-      <div className="text-center py-5">
-        <FileText className="mx-auto mb-3" size={48} style={{ color: 'var(--text-muted)' }} />
-        <p className="fw-medium mb-1" style={{ color: 'var(--text-muted)' }}>No documents found</p>
-        <p className="small mb-0" style={{ color: 'var(--text-muted)' }}>Upload your first document to get started</p>
-      </div>
-    ) : (
-      <div className="table-responsive px-0">
-        <table className="table align-middle mb-0" style={{ color: 'var(--foreground)' }}>
+      <div
+        className="table-responsive bg-white"
+        style={{
+          border: '1px solid #FFE2CF',
+          borderRadius: '10px',
+          overflow: 'visible',
+        }}
+      >
+        <table className="table align-middle mb-0">
           <thead>
-            <tr style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-hover)' }}>
-              <th className="ps-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Subject</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Uploaded</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Status</th>
-              <th className="fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reason</th>
-              <th className="text-end pe-4 fw-semibold py-3" style={{ color: 'var(--text-muted)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Actions</th>
+            <tr>
+              <th className="py-3 px-3">Title</th>
+              <th className="py-3 px-3">Tag</th>
+              <th className="py-3 px-3">Date</th>
+              <th className="py-3 px-3">Size</th>
+              <th className="py-3 px-3">Status</th>
+              <th className="py-3 px-3 text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {myDocs.map((doc) => (
-              <tr
-                key={doc.id}
-                className="align-middle"
-                style={{
-                  borderColor: 'var(--border)',
-                  transition: 'background-color 0.15s ease',
-                  cursor: 'default',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-hover)'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}
-              >
-                <td className="ps-4 py-3">
-                  <div className="d-flex align-items-center gap-2">
-                    <FileText className="h-4 w-4 flex-shrink-0" style={{ color: 'var(--primary)' }} />
-                    <span className="fw-medium" style={{ color: 'var(--text-dark)', fontSize: '14px' }}>{doc.title}</span>
-                  </div>
+            {isLoading ? (
+              <tr>
+                <td colSpan="6" className="text-center text-muted py-5">
+                  Loading documents...
                 </td>
-                <td className="py-3">
-=======
-      <div
-                    className="table-responsive bg-white"
-                    style={{
-                      border: '1px solid #FFE2CF',
-                      borderRadius: '10px',
-                      overflow: 'visible',
-                    }}
-                  >
-                    <table className="table align-middle mb-0">
-                      <thead>
-                        <tr>
-                          <th className="py-3 px-3">Title</th>
-                          <th className="py-3 px-3">Tag</th>
-                          <th className="py-3 px-3">Date</th>
-                          <th className="py-3 px-3">Size</th>
-                          <th className="py-3 px-3">Status</th>
-                          <th className="py-3 px-3 text-end">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {isLoading ? (
-                          <tr>
-                            <td colSpan="6" className="text-center text-muted py-5">
-                              Loading documents...
-                            </td>
-                          </tr>
-                        ) : sortedDocuments.length === 0 ? (
-                          <tr>
-                            <td colSpan="6" className="text-center py-5">
-                              <FileText size={34} className="mb-2" style={{ color: '#FD8F52' }} />
-                              <p className="fw-semibold mb-1">No documents yet</p>
-                              <p className="text-muted mb-0">Upload a document to see it here.</p>
-                            </td>
-                          </tr>
-                        ) : (
-                          sortedDocuments.map((document) => {
-                            const statusStyle = getStatusStyle(document.status);
+              </tr>
+            ) : sortedDocuments.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center py-5">
+                  <FileText size={34} className="mb-2" style={{ color: '#FD8F52' }} />
+                  <p className="fw-semibold mb-1">No documents yet</p>
+                  <p className="text-muted mb-0">Upload a document to see it here.</p>
+                </td>
+              </tr>
+            ) : (
+              sortedDocuments.map((document) => {
+                const statusStyle = getStatusStyle(document.status);
 
-                            return (
-                              <tr key={document.id}>
-                                <td className="py-3 px-3 fw-semibold">{document.title || document.fileName || 'Untitled Document'}</td>
-                                <td className="py-3 px-3">{document.tags || '-'}</td>
-                                <td className="py-3 px-3">{formatDate(document.date || document.createdAt)}</td>
-                                <td className="py-3 px-3">{document.size || '-'}</td>
-                                <td className="py-3 px-3">
->>>>>>> UploadPage_Quyt
-                                  <span
-                                    className="d-inline-flex align-items-center justify-content-center fw-semibold"
-                                    style={{
-                                      minWidth: '78px',
-                                      height: '28px',
-                                      padding: '0 12px',
-                                      borderRadius: '9px',
-                                      fontSize: '0.85rem',
-                                      border: `1px solid ${statusStyle.borderColor}`,
-                                      backgroundColor: statusStyle.backgroundColor,
-                                      color: statusStyle.color,
-                                    }}
-                                  >
-                                    {statusStyle.label}
-                                  </span>
-                                </td>
-                                <td className="py-3 px-3 text-end">
-                                  <Dropdown align="end">
-                                    <Dropdown.Toggle
-                                      as="button"
-                                      className="btn btn-sm btn-light border-0 bg-transparent p-1"
-                                      disabled={deletingId === document.id}
-                                    >
-                                      <MoreVertical size={20} />
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu className="shadow-sm border-0">
-                                      <Dropdown.Item
-                                        className="d-flex align-items-center gap-2"
-                                        onClick={() => navigate(`/document/${document.id}/view`)}
-                                      >
-                                        <Eye size={16} />
-                                        View
-                                      </Dropdown.Item>
-                                      <Dropdown.Item
-                                        className="d-flex align-items-center gap-2"
-                                        onClick={() => handleOpenEdit(document)}
-                                      >
-                                        <Edit2 size={16} />
-                                        Edit
-                                      </Dropdown.Item>
-                                      <Dropdown.Item
-                                        className="d-flex align-items-center gap-2 text-danger"
-                                        onClick={() => handleDelete(document.id)}
-                                      >
-                                        <Trash2 size={16} />
-                                        Delete
-                                      </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                  </Dropdown>
-                                </td>
-                                <td className="text-end pe-4 py-3">
-                                  <button
-                                    onClick={() => navigate(`/document/${doc.id}/edit`)}
-                                    className="btn btn-sm d-inline-flex align-items-center gap-1 fw-medium border-0"
-                                    style={{
-                                      color: 'var(--primary)',
-                                      backgroundColor: 'var(--surface-hover)',
-                                      borderRadius: '6px',
-                                      padding: '0.3rem 0.7rem',
-                                      fontSize: '12px',
-                                      border: '1px solid var(--border)',
-                                    }}
-                                  >
-                                    <Edit3 className="h-3 w-3" /> Edit
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <Modal show={Boolean(editingDocument)} onHide={handleCloseEdit} centered>
-                    <Form onSubmit={handleUpdate}>
-                      <Modal.Header closeButton={!isUpdating}>
-                        <Modal.Title>Edit document</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>
-                        <Form.Group className="mb-3" controlId="edit-title">
-                          <Form.Label>Title</Form.Label>
-                          <Form.Control
-                            name="title"
-                            value={editForm.title}
-                            onChange={handleEditChange}
-                            placeholder="Enter document title"
-                          />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="edit-tags">
-                          <Form.Label>Tags</Form.Label>
-                          <Form.Control
-                            name="tags"
-                            value={editForm.tags}
-                            onChange={handleEditChange}
-                            placeholder="ai, lecture notes, final exam"
-                          />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="edit-visibility">
-                          <Form.Label>Visibility</Form.Label>
-                          <Form.Select name="visibility" value={editForm.visibility} onChange={handleEditChange}>
-                            <option value="public">Public</option>
-                            <option value="private">Private</option>
-                          </Form.Select>
-                        </Form.Group>
-
-                        <Form.Group controlId="edit-description">
-                          <Form.Label>Description</Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            rows={4}
-                            name="description"
-                            value={editForm.description}
-                            onChange={handleEditChange}
-                            placeholder="Add a short summary for this document"
-                          />
-                        </Form.Group>
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Button variant="outline-secondary" onClick={handleCloseEdit} disabled={isUpdating}>
-                          Cancel
-                        </Button>
-                        <Button type="submit" variant="secondary" disabled={isUpdating}>
-                          {isUpdating ? 'Saving...' : 'Save changes'}
-                        </Button>
-                      </Modal.Footer>
-                    </Form>
-                  </Modal>
-                </div>
+                return (
+                  <tr key={document.id}>
+                    <td className="py-3 px-3 fw-semibold">{document.title || document.fileName || 'Untitled Document'}</td>
+                    <td className="py-3 px-3">{document.tags || '-'}</td>
+                    <td className="py-3 px-3">{formatDate(document.date || document.createdAt)}</td>
+                    <td className="py-3 px-3">{document.size || '-'}</td>
+                    <td className="py-3 px-3">
+                      <span
+                        className="d-inline-flex align-items-center justify-content-center fw-semibold"
+                        style={{
+                          minWidth: '78px',
+                          height: '28px',
+                          padding: '0 12px',
+                          borderRadius: '9px',
+                          fontSize: '0.85rem',
+                          border: `1px solid ${statusStyle.borderColor}`,
+                          backgroundColor: statusStyle.backgroundColor,
+                          color: statusStyle.color,
+                        }}
+                      >
+                        {statusStyle.label}
+                      </span>
+                    </td>
+                    <td className="py-3 px-3 text-end">
+                      <Dropdown align="end">
+                        <Dropdown.Toggle
+                          as="button"
+                          className="btn btn-sm btn-light border-0 bg-transparent p-1"
+                          disabled={deletingId === document.id}
+                        >
+                          <MoreVertical size={20} />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="shadow-sm border-0">
+                          <Dropdown.Item
+                            className="d-flex align-items-center gap-2"
+                            onClick={() => navigate(`/document/${document.id}/view`)}
+                          >
+                            <Eye size={16} />
+                            View
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            className="d-flex align-items-center gap-2"
+                            onClick={() => handleOpenEdit(document)}
+                          >
+                            <Edit2 size={16} />
+                            Edit
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            className="d-flex align-items-center gap-2 text-danger"
+                            onClick={() => handleDelete(document.id)}
+                          >
+                            <Trash2 size={16} />
+                            Delete
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </td>
+                  </tr>
                 );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <Modal show={Boolean(editingDocument)} onHide={handleCloseEdit} centered>
+        <Form onSubmit={handleUpdate}>
+          <Modal.Header closeButton={!isUpdating}>
+            <Modal.Title>Edit document</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className="mb-3" controlId="edit-title">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                name="title"
+                value={editForm.title}
+                onChange={handleEditChange}
+                placeholder="Enter document title"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="edit-tags">
+              <Form.Label>Tags</Form.Label>
+              <Form.Control
+                name="tags"
+                value={editForm.tags}
+                onChange={handleEditChange}
+                placeholder="ai, lecture notes, final exam"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="edit-visibility">
+              <Form.Label>Visibility</Form.Label>
+              <Form.Select name="visibility" value={editForm.visibility} onChange={handleEditChange}>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group controlId="edit-description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                name="description"
+                value={editForm.description}
+                onChange={handleEditChange}
+                placeholder="Add a short summary for this document"
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="outline-secondary" onClick={handleCloseEdit} disabled={isUpdating}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="secondary" disabled={isUpdating}>
+              {isUpdating ? 'Saving...' : 'Save changes'}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+    </div>
+  );
 }
