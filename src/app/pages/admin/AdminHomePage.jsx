@@ -150,15 +150,15 @@ export default function AdminHomePage() {
       {/* ─── Stat Cards ─── */}
       <div className="row g-3 mb-4">
         {[
-          { icon: Users, label: 'Total Users', value: stats.totalUsers, sub: 'Registered members', bg: 'rgba(124,58,237,0.1)', color: '#7c3aed' },
-          { icon: FileText, label: 'Approved Documents', value: stats.approvedDocs, sub: 'Approved files', bg: 'rgba(34,197,94,0.1)', color: '#22c55e' },
-          { icon: HardDrive, label: 'Storage Capacity', value: `${storageMB} MB`, sub: 'Total storage used', bg: 'rgba(253,143,82,0.1)', color: 'var(--primary)' },
-          { icon: Flag, label: 'Reports Pending', value: stats.pendingReports, sub: 'Awaiting review', bg: 'rgba(239,68,68,0.1)', color: '#ef4444' },
+          { icon: Users, label: 'Total Users', value: stats.totalUsers, sub: 'Registered members', color: '#7c3aed' },
+          { icon: FileText, label: 'Approved Documents', value: stats.approvedDocs, sub: 'Approved files', color: '#22c55e' },
+          { icon: HardDrive, label: 'Storage Capacity', value: `${storageMB} MB`, sub: 'Total storage used', color: 'var(--primary)' },
+          { icon: Flag, label: 'Reports Pending', value: stats.pendingReports, sub: 'Awaiting review', color: '#ef4444' },
         ].map((card) => (
           <div className="col-6 col-lg-3" key={card.label}>
             <div className="card border-0 shadow-sm h-100" style={{ borderRadius: '12px', backgroundColor: 'var(--card)' }}>
               <div className="card-body p-3">
-                <div className="d-flex align-items-center justify-content-center rounded-3 mb-2" style={{ width: '40px', height: '40px', backgroundColor: card.bg }}>
+                <div className="d-flex align-items-center justify-content-center rounded-3 mb-2" style={{ width: '40px', height: '40px', backgroundColor: 'var(--surface-hover)' }}>
                   <card.icon size={20} style={{ color: card.color }} />
                 </div>
                 <p className="fw-bold mb-0" style={{ fontSize: '22px', color: 'var(--text-dark)' }}>{card.value}</p>
@@ -217,9 +217,9 @@ export default function AdminHomePage() {
                       className="badge rounded-pill fw-medium px-2 py-1 flex-shrink-0"
                       style={{
                         fontSize: '10px',
-                        backgroundColor: doc.status === 'approved' ? '#22c55e15' : doc.status === 'rejected' ? '#ef444415' : '#f59e0b15',
+                        backgroundColor: 'var(--surface-hover)',
                         color: doc.status === 'approved' ? '#22c55e' : doc.status === 'rejected' ? '#ef4444' : '#f59e0b',
-                        border: `1px solid ${doc.status === 'approved' ? '#22c55e30' : doc.status === 'rejected' ? '#ef444430' : '#f59e0b30'}`,
+                        border: '1px solid var(--border)',
                       }}
                     >
                       {doc.status.toUpperCase() === 'APPROVED' ? 'PUBLIC' : doc.status.toUpperCase()}
@@ -256,12 +256,12 @@ export default function AdminHomePage() {
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--muted)'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-hover)'}
                     >
-                      <div
-                        className="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0"
-                        style={{ width: '40px', height: '40px', backgroundColor: `${card.color}15` }}
-                      >
-                        <card.icon size={18} style={{ color: card.color }} />
-                      </div>
+                        <div
+                              className="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0"
+                              style={{ width: '40px', height: '40px', backgroundColor: 'var(--surface-hover)' }}
+                            >
+                              <card.icon size={18} style={{ color: card.color }} />
+                            </div>
                       <div className="flex-grow-1 min-w-0">
                         <p className="fw-semibold mb-0" style={{ color: 'var(--text-dark)', fontSize: '13px' }}>
                           {card.label}
@@ -277,7 +277,7 @@ export default function AdminHomePage() {
                             width: '28px',
                             height: '28px',
                             fontSize: '11px',
-                            backgroundColor: `${card.color}20`,
+                            backgroundColor: 'var(--surface-hover)',
                             color: card.color,
                           }}
                         >

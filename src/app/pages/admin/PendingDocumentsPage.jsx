@@ -77,9 +77,9 @@ export default function PendingDocumentsPage() {
       {/* Stats cards */}
       <div className="row g-3 mb-4">
         {[
-          { label: 'Awaiting Review', value: stats.pending, color: '#f59e0b', icon: Clock, bg: '#f59e0b12' },
-          { label: 'Approved Documents', value: stats.approved, color: '#22c55e', icon: Check, bg: '#22c55e12' },
-          { label: 'Rejected Documents', value: stats.rejected, color: '#ef4444', icon: X, bg: '#ef444412' },
+          { label: 'Awaiting Review', value: stats.pending, color: '#f59e0b', icon: Clock },
+          { label: 'Approved Documents', value: stats.approved, color: '#22c55e', icon: Check },
+          { label: 'Rejected Documents', value: stats.rejected, color: '#ef4444', icon: X },
         ].map((stat) => (
           <div className="col-6 col-md-4" key={stat.label}>
             <div
@@ -87,7 +87,7 @@ export default function PendingDocumentsPage() {
               style={{ borderRadius: '12px', backgroundColor: 'var(--card)' }}
             >
               <div className="card-body p-3">
-                <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: stat.bg }}>
+                <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: 'var(--surface-hover)' }}>
                   <stat.icon size={18} style={{ color: stat.color }} />
                 </div>
                 <p className="fw-bold mb-0" style={{ color: 'var(--text-dark)', fontSize: '24px' }}>{stat.value}</p>

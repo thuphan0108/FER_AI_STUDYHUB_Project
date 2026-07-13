@@ -160,7 +160,7 @@ export default function ReportManagementPage() {
         <div className="col-6 col-md-6">
           <div className="card border-0 shadow-sm h-100" style={{ borderRadius: '12px', backgroundColor: 'var(--card)' }}>
             <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: '#22c55e12' }}>
+              <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: 'var(--surface-hover)' }}>
                 <FileText size={18} style={{ color: '#22c55e' }} />
               </div>
               <p className="fw-bold mb-0" style={{ color: 'var(--text-dark)', fontSize: '24px' }}>{uniqueReportedDocs}</p>
@@ -171,7 +171,7 @@ export default function ReportManagementPage() {
         <div className="col-6 col-md-6">
           <div className="card border-0 shadow-sm h-100" style={{ borderRadius: '12px', backgroundColor: 'var(--card)' }}>
             <div className="card-body p-3">
-              <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: '#ef444412' }}>
+              <div className="d-flex align-items-center justify-content-center rounded-2 mb-2" style={{ width: '36px', height: '36px', backgroundColor: 'var(--surface-hover)' }}>
                 <AlertTriangle size={18} style={{ color: '#ef4444' }} />
               </div>
               <p className="fw-bold mb-0" style={{ color: 'var(--text-dark)', fontSize: '24px' }}>{stats.pending}</p>
@@ -272,9 +272,9 @@ export default function ReportManagementPage() {
                           className="badge rounded-pill fw-medium px-3 py-1"
                           style={{
                             fontSize: '12px',
-                            backgroundColor: '#fce4e4',
-                            color: '#d32f2f',
-                            border: 'none',
+                            backgroundColor: 'var(--surface-hover)',
+                            color: 'var(--destructive)',
+                            border: '1px solid var(--border)',
                           }}
                         >
                           {group.count} {group.count === 1 ? 'report' : 'reports'}

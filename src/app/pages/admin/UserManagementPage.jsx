@@ -253,7 +253,7 @@ export default function UserManagementPage() {
                             className="fw-semibold px-2 py-1 rounded-3"
                             style={{
                               color: u.warnings > 0 ? '#ea580c' : 'var(--text-muted)',
-                              backgroundColor: u.warnings > 0 ? 'rgba(234,88,12,0.1)' : 'transparent',
+                              backgroundColor: u.warnings > 0 ? 'var(--surface-hover)' : 'transparent',
                               fontSize: '13px',
                             }}
                           >
@@ -265,9 +265,9 @@ export default function UserManagementPage() {
                             className="badge rounded-pill fw-medium px-3 py-1 d-inline-flex align-items-center gap-1"
                             style={{
                               fontSize: '12px',
-                              backgroundColor: u.status === 'banned' ? 'rgba(199,56,102,0.15)' : u.status === 'warned' ? 'rgba(234,88,12,0.15)' : 'rgba(34,197,94,0.15)',
+                              backgroundColor: 'var(--surface-hover)',
                               color: statusInfo.color,
-                              border: '1px solid transparent',
+                              border: '1px solid var(--border)',
                             }}
                           >
                             <StatusIcon className="h-3 w-3" />
@@ -427,7 +427,7 @@ export default function UserManagementPage() {
                     className="fw-semibold px-2 py-1 rounded-3"
                     style={{
                       color: detailModal.warnings > 0 ? '#ea580c' : 'var(--text-muted)',
-                      backgroundColor: detailModal.warnings > 0 ? 'rgba(234,88,12,0.1)' : 'transparent',
+                      backgroundColor: detailModal.warnings > 0 ? 'var(--surface-hover)' : 'transparent',
                       fontSize: '14px',
                     }}
                   >
